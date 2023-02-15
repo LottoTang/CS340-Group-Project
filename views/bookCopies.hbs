@@ -1,0 +1,45 @@
+{{!-- Create a table --}}
+<table id="bookCopies-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id and title, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.bookCopyID}}</td>
+            <td>{{this.bookID}}</td>
+            <td>{{this.bookStatus}}</td>
+            <td><button type="button">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{!-- Form to add a record to the table  --}}
+<form id="add-bookCopies-form-ajax">
+    <fieldset>
+        <legend>Add Book Copies</legend>
+            <label for="input-bookCopies-title">Book Title: </label>
+            <input type="text" name="input-bookCopies-title" id="input-bookCopies-title">
+            <input type="submit">
+    </fieldset>
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_bookCopies.js"></script>

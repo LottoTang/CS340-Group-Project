@@ -30,13 +30,38 @@ var db = require('./database/db-connector')
 
 app.get('/', function(req, res)
     {  
-        let query1 = "SELECT * FROM Books;";                    // Define our query
-
-        db.pool.query(query1, function(error, rows, fields){    // Execute the query
-
-            res.render('index', {data: rows});                  // Render the index.hbs file, and also send the renderer
-        })                                                      // an object where 'data' is equal to the 'rows' we
+        res.render('index');                                    // Render the index.hbs file, and also send the renderer                                                  // an object where 'data' is equal to the 'rows' we
     });                                                         // received back from the query
+
+app.get('/books', function(req, res)
+{  
+    let query1 = "SELECT * FROM Books ORDER BY Books.bookID;";                    
+
+    db.pool.query(query1, function(error, rows, fields){    
+
+        res.render('books', {data: rows});                  
+    })                                                      
+}); 
+
+app.get('/bookCopies', function(req, res)
+{  
+    let query1 = "SELECT * FROM BookCopies ORDER BY BookCopies.bookID;"                   
+
+    db.pool.query(query1, function(error, rows, fields){    
+
+        res.render('bookCopies', {data: rows});                  
+    })                                                      
+}); 
+
+app.get('/authors', function(req, res)
+{  
+    let query1 = "SELECT * FROM Authors ORDER BY Authors.authorID;";                    
+
+    db.pool.query(query1, function(error, rows, fields){    
+
+        res.render('authors', {data: rows});                  
+    })                                                      
+}); 
 
 /*
     ADD BOOKS
@@ -55,7 +80,7 @@ app.post('/add-book-ajax', function(req, res)
         }
         else
         {
-            query2 = `SELECT * FROM Books;`;
+            query2 = `SELECT * FROM Books ORDER BY Books.bookID;`;
             db.pool.query(query2, function(error, rows, fields){
                 if (error) {
                     console.log(error);
@@ -68,8 +93,70 @@ app.post('/add-book-ajax', function(req, res)
             })
         }
     })
+});
 
+/*
+    ADD AUTHORS
+*/
 
+app.post('/add-author-ajax', function(req, res)
+{
+    let data = req.body;
+
+    query1 = `INSERT INTO Authors (firstName, lastName) VALUES ('${data.firstName}', '${data.lastName}')`;
+
+    db.pool.query(query1, function(error, rows, fields) {
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            query2 = `SELECT * FROM Authors ORDER BY Authors.authorID;`;
+            db.pool.query(query2, function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+/*
+    ADD BOOK COPY
+*/
+
+app.post('/add-bookCopies-ajax', function(req, res)
+{
+    let data = req.body;
+
+    query1 = `INSERT INTO BookCopies (bookID) VALUES ((SELECT Books.bookID FROM Books WHERE Books.title = '${data.title}'))`;
+
+    db.pool.query(query1, function(error, rows, fields) {
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            query2 = `SELECT * FROM BookCopies ORDER BY BookCopies.bookID;`;
+            db.pool.query(query2, function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
 });
 
 /*
