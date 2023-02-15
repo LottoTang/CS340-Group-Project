@@ -1,0 +1,145 @@
+<html>
+    <head>
+        <title>Members</title>
+        <link href="style.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <h1>Members</h1>
+        [ 
+        <a href="members.html">Members</a>
+         | 
+        <a href="books.hbs">Books and Authors</a>
+         | 
+        <a href="bookCopies.hbs">Book Copies</a>
+         | 
+        <a href="checkouts.html">Checkouts</a> 
+        ] 
+        <div id="browse" style="display: block">
+        <p>
+            <strong>Browse Members</strong>
+        </p>
+        <table border="1" cellpadding="5">
+            <tbody>
+                <tr>
+                    <th>
+                        <a href="#">Add New Member</a>
+                    </th>
+                    <th></th>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Contact Number</th>
+                    <th>Current Address</th>
+                    <th>Email</th>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#">Edit Member</a>
+                    </td>
+                    <td>
+                        <a href="#">Delete Member</a>
+                    </td>
+                    <td>1</td>
+                    <td>Dorothy</td>
+                    <td>Andrews</td>
+                    <td>949-227-2436</td>
+                    <td>4823 Harley Brook Lane, Bedford, PA</td>
+                    <td>gloria2013@fake.com</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#">Edit Member</a>
+                    </td>
+                    <td>
+                        <a href="#">Delete Member</a>
+                    </td>
+                    <td>2</td>
+                    <td>James</td>
+                    <td>Pressman</td>
+                    <td>641-583-0777</td>
+                    <td>3152 Custer Street, Bedford, PA</td>
+                    <td>iliana2013@fake.com</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#">Edit Member</a>
+                    </td>
+                    <td>
+                        <a href="#">Delete Member</a>
+                    </td>
+                    <td>3</td>
+                    <td>Amanda</td>
+                    <td>Johnson</td>
+                    <td>510-840-3869</td>
+                    <td>3691 Stutler Lane La, Bedford, PA</td>
+                    <td>amandajohnson2013@fake.com</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#">Edit Member</a>
+                    </td>
+                    <td>
+                        <a href="#">Delete Member</a>
+                    </td>
+                    <td>4</td>
+                    <td>Margaret</td>
+                    <td>Waugh</td>
+                    <td>814-977-9583</td>
+                    <td>2349 Custer Street, Bedford, PA</td>
+                    <td>bettiehalvors@fake.com</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+    </div>
+    <div id="insert" style="display: block">
+        <form id="addMember">
+            <legend>
+                <strong>Add Member</strong>
+            </legend>
+            <fieldset class="fields">
+                <label>First Name: </label>
+                <input type="text" name="fname">
+                <label>Last Name: </label>
+                <input type="text" name="lname">
+                <p>&nbsp;</p>
+                <label>Phone: </label>
+                <input type="tel" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                <small>Format: 123-456-7890</small>
+                <p>&nbsp;</p>
+                <label>Home address: </label>
+                <input type="text" name="address">
+                <p>&nbsp;</p>
+                <label>Email address:</label>
+                <input type="email" name="email">
+                <p>&nbsp;</p>
+            </fieldset>
+            <input class="btn" type="submit" id="addMember" value="Add Member">
+        </form>
+    </div>
+    <div id="update" style="display: block">
+        <form id="editMember">
+            <legend>
+                <strong>Edit Member</strong>
+            </legend>
+            <fieldset class="fields">
+                <label>First Name: </label>
+                <input type="text" name="fname" value="James">
+                <label>Last Name: </label>
+                <input type="text" name="lname" value="Pressman">
+                <p>&nbsp;</p>
+                <label>Phone: </label>
+                <input type="tel" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="641-583-0777">
+                <small>Format: 123-456-7890</small>
+                <p>&nbsp;</p>
+                <label>Home address: </label>
+                <input type="text" name="address" value="3152 Custer Street, Bedford, PA">
+                <p>&nbsp;</p>
+                <label>Email address:</label>
+                <input type="email" name="email" value="iliana2013@fake.com">
+                <p>&nbsp;</p>
+            </fieldset>
+            <input class="btn" type="submit" id="editMember" value="Save Changes">
+        </form>
+    </body>
+</html>
