@@ -4,108 +4,110 @@
         <link href="style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <h1>Checkouts</h1>
-        [ 
-        <a href="index.html">Home</a>
-         |
-        <a href="members.html">Members</a>
-         | 
-        <a href="books.html">Books</a>
-        | 
-        <a href="authors.html">Authors</a>
-         | 
-        <a href="bookCopies.html">Book Copies</a>
-         | 
-        <a href="checkouts.html">Checkouts</a> 
-        ]  
+        <nav>
+            <h1>Checkouts</h1>
+            [ 
+            <a href="index.html">Home</a>
+            |
+            <a href="members.html">Members</a>
+            | 
+            <a href="books.html">Books</a>
+            | 
+            <a href="authors.html">Authors</a>
+            | 
+            <a href="bookCopies.html">Book Copies</a>
+            | 
+            <a href="checkouts.html">Checkouts</a> 
+            ]  
+        </nav>
         <div id="browse" style="display: block">
-        <p>
-            <strong>Browse Checkouts</strong>
-        </p>
-        <table border="1" cellpadding="5">
-            <tbody>
-                <tr>
-                    <th>
-                        <a href="#">New Checkout</a>
-                    </th>
-                    <th>ID</th>
-                    <th>Start Time</th>
-                    <th>Returned?</th>
-                    <th>Book Copy ID</th>
-                    <th>Book Title</th>
-                    <th>Author</th>
-                    <th>Member ID</th>
-                    <th>Member Name</th>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="#">Return Book</a>
-                    </td>
-                    <td>1</td>
-                    <td>2023-02-04 14:12:54</td>
-                    <td>0</td>
-                    <td>4</td>
-                    <td>Big Swiss: A Novel</td>
-                    <td>Jen Beagin</td>
-                    <td>1</td>
-                    <td>Dorothy Andrews</td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="#">Return Book</a>
-                    </td>
-                    <td>2</td>
-                    <td>2023-02-05 9:19:14</td>
-                    <td>0</td>
-                    <td>5</td>
-                    <td>Pretend I'm Dead: A Novel</td>
-                    <td>Jen Beagin</td>
-                    <td>2</td>
-                    <td>James Pressman</td>
-                </tr>
-            </tbody>
-        </table>
-        <p>&nbsp;</p>
-    </div>
-    <div id="findMember" style="display: block">
-        <form id="findMember">
-            <legend>
-                <strong>Find Member</strong>
-                <p>Enter a member's phone number to find all checkouts they have made</p>
-            </legend>
-            <fieldset class="fields">
-                <label>Phone: </label>
-                <input type="tel" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                <p>&nbsp;</p>
-                <small>Format: 123-456-7890</small>
-            </fieldset>
-            <input class="btn" type="submit" id="addMember" value="Find">
-        </form>
-    </div>
-    <div id="insert" style="display: block">
-        <form id="newCheckout">
-            <legend>
-                <strong>New Checkout</strong>
-            </legend>
-            <fieldset class="fields">
-                <label for="books"> Book Copy & Title: </label>
-                <select name="books" id="books">
-                    <option value="1">1: "B.F.F.: A Memoir of Friendship Lost and Found"</option>
-                    <option value="2">2: "B.F.F.: A Memoir of Friendship Lost and Found"</option>
-                    <option value="3">3: "Victory City: A Novel"</option>
-                    <option value="4">4: "River Sing Me Home"</option>
-                    <option value="5">5: "River Sing Me Home"</option>
-                    <option value="6">6: "Big Swiss: A Novel"</option>
-                    <option value="7">7: "Pretend I'm Dead: A Novel"</option>
-                    <option value="8">8: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch"</option>
-                </select>
-                <p>&nbsp;</p>
-                <label for="members"> Member telephone number: </label>
-                <input type="tel" name="members" id="members" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                <small>Format: 123-456-7890</small>
-            </fieldset>
-            <input class="btn" type="submit" id="newCheckout" value="Check Out">
-        </form>
-    </div>
+            <p>
+                <strong>Browse Checkouts</strong>
+            </p>
+            <table border="1" cellpadding="5">
+                <tbody>
+                    <tr>
+                        <th>
+                            <a href="#">New Checkout</a>
+                        </th>
+                        <th>ID</th>
+                        <th>Start Time</th>
+                        <th>Returned?</th>
+                        <th>Book Copy ID</th>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Member ID</th>
+                        <th>Member Name</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#">Return Book</a>
+                        </td>
+                        <td>1</td>
+                        <td>2023-02-04 14:12:54</td>
+                        <td>0</td>
+                        <td>4</td>
+                        <td>Big Swiss: A Novel</td>
+                        <td>Jen Beagin</td>
+                        <td>1</td>
+                        <td>Dorothy Andrews</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#">Return Book</a>
+                        </td>
+                        <td>2</td>
+                        <td>2023-02-05 9:19:14</td>
+                        <td>0</td>
+                        <td>5</td>
+                        <td>Pretend I'm Dead: A Novel</td>
+                        <td>Jen Beagin</td>
+                        <td>2</td>
+                        <td>James Pressman</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>&nbsp;</p>
+        </div>
+        <div id="findMember" style="display: block">
+            <form id="findMember">
+                <legend>
+                    <strong>Find Member</strong>
+                    <p>Enter a member's phone number to find all checkouts they have made</p>
+                </legend>
+                <fieldset class="fields">
+                    <label>Phone: </label>
+                    <input type="tel" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                    <p>&nbsp;</p>
+                    <small>Format: 123-456-7890</small>
+                </fieldset>
+                <input class="btn" type="submit" id="addMember" value="Find">
+            </form>
+        </div>
+        <div id="insert" style="display: block">
+            <form id="newCheckout">
+                <legend>
+                    <strong>New Checkout</strong>
+                </legend>
+                <fieldset class="fields">
+                    <label for="books"> Book Copy & Title: </label>
+                    <select name="books" id="books">
+                        <option value="1">1: "B.F.F.: A Memoir of Friendship Lost and Found"</option>
+                        <option value="2">2: "B.F.F.: A Memoir of Friendship Lost and Found"</option>
+                        <option value="3">3: "Victory City: A Novel"</option>
+                        <option value="4">4: "River Sing Me Home"</option>
+                        <option value="5">5: "River Sing Me Home"</option>
+                        <option value="6">6: "Big Swiss: A Novel"</option>
+                        <option value="7">7: "Pretend I'm Dead: A Novel"</option>
+                        <option value="8">8: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch"</option>
+                    </select>
+                    <p>&nbsp;</p>
+                    <label for="members"> Member telephone number: </label>
+                    <input type="tel" name="members" id="members" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                    <small>Format: 123-456-7890</small>
+                </fieldset>
+                <input class="btn" type="submit" id="newCheckout" value="Check Out">
+            </form>
+        </div>
     </body>
 </html>
