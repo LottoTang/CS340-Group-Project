@@ -25,7 +25,6 @@ DROP TABLES IF EXISTS BookAuthors;
 CREATE TABLE BookAuthors (
     authorID INT NOT NULL,
     bookID INT NOT NULL,
-    PRIMARY KEY (authorID, bookID),
     FOREIGN KEY (authorID) REFERENCES Authors (authorID),
     FOREIGN KEY (bookID) REFERENCES Books (bookID)
 );

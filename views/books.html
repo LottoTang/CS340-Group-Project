@@ -23,6 +23,8 @@
         <div id="browse" style="display: block">
             <p>
                 <strong>Browse Books</strong>
+                <br>
+                Click the title of a book to see its author(s)
             </p>
             <table border="1" cellpadding="5">
                 <tbody>
@@ -42,8 +44,9 @@
                             <a href="#">Delete Book</a>
                         </td>
                         <td>1</td>
-                        <td>B.F.F.: A Memoir of Friendship Lost and Found</td>
-                    </tr>
+                        <td>
+                            <a href=#>B.F.F.: A Memoir of Friendship Lost and Found</a>
+                        </td></tr>
                     <tr>
                         <td>
                             <a href="#">Edit Book</a>
@@ -52,7 +55,9 @@
                             <a href="#">Delete Book</a>
                         </td>
                         <td>2</td>
-                        <td>Victory City: A Novel</td>
+                        <td>
+                            <a href=#>Victory City: A Novel</a>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -62,7 +67,9 @@
                             <a href="#">Delete Book</a>
                         </td>
                         <td>3</td>
-                        <td>River Sing Me Home</td>
+                        <td>
+                            <a href=#>River Sing Me Home</a>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -72,7 +79,9 @@
                             <a href="#">Delete Book</a>
                         </td>
                         <td>4</td>
-                        <td>Big Swiss: A Novel</td>
+                        <td>
+                            <a href=#>Big Swiss: A Novel</a>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -82,7 +91,9 @@
                             <a href="#">Delete Book</a>
                         </td>
                         <td>5</td>
-                        <td>Pretend I'm Dead: A Novel</td>
+                        <td>
+                            <a href=#>Pretend I'm Dead: A Novel</a>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -92,7 +103,31 @@
                             <a href="#">Delete Book</a>
                         </td>
                         <td>6</td>
+                        <td>
+                            <a href=#>Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>&nbsp;</p>
+        </div>
+        <div id="results" style="display: block">
+            <p>
+                <strong>View Author(s)</strong>
+            </p>
+            <table border="1" cellpadding="5">
+                <tbody>
+                    <tr>
+                        <th>Book</th>
+                        <th>Author</th>
+                    </tr>
+                    <tr>    
                         <td>Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch</td>
+                        <td>Terry Pratchett</td>
+                    </tr>
+                    <tr>    
+                        <td>Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch</td>
+                        <td>Neil Gaiman</td>
                     </tr>
                 </tbody>
             </table>
@@ -106,6 +141,15 @@
                 <fieldset class="fields">
                     <label>Book Title: </label>
                     <input type="text" name="bookTitle">
+                    <label>Author: </label>
+                    <select name="books" id="books">
+                        <option value="1">Christie Tate</option>
+                        <option value="2">Salman Rushdie</option>
+                        <option value="3">Eleanor Shearer</option>
+                        <option value="4">Jen Beagin</option>
+                        <option value="5">Terry Pratchett</option>
+                        <option value="6">Neil Gaiman</option>
+                    </select>
                 </fieldset>
                 <input class="btn" type="submit" id="addMember" value="Add Book">
             </form>

@@ -3,10 +3,23 @@
 
 -- BOOKS page
 -- display all Books of the library
-SELECT Books.bookID AS ID, Books.bookTitle AS Title FROM Books;
+SELECT Books.bookID AS ID, Books.title AS Title FROM Books
+
+-- display the author(s) for any given book when we click on the book
+SELECT Books.title AS Title, CONCAT(Authors.firstName, ' ', Authors.lastName) AS Author FROM Books INNER JOIN
+BookAuthors ON Books.bookID = BookAuthors.bookID INNER JOIN
+Authors ON BookAuthors.authorID = Authors.authorID
+WHERE Books.bookID = :bookID_input
+ORDER BY Authors.lastName
+
+-- get the dropdown of Authors for adding new books
+SELECT CONCAT(Authors.lastName, ', ', Authors.firstName) AS Author 
+FROM Authors
+ORDER BY Authors.lastName;
 
 -- add a book
-INSERT INTO Books (Books.bookTitle) VALUES (:bookTitleInput);
+INSERT INTO Books (Books.bookTitle) VALUES (:bookTitleInput)
+INSERT INTO BookAuthors (authorID, bookID) VALUES (:chosen_authorID, (SELECT Books.bookID FROM Books WHERE Books.title = :bookTitleInput))
 
 -- edit a book
 -- for better user experience -> show all the book id and the title for choosing as topdown list
@@ -24,10 +37,10 @@ SELECT Authors.authorID AS ID, Authors.firstName AS "First Name", Authors.lastNa
 ORDER BY Authors.authorID;
 
 -- add an author
-INSERT INTO Authors (Authors.firstName, lAuthors.astName) VALUES (:firstNameInput, :lastNameInput);
+INSERT INTO Authors (Authors.firstName, Authors.lastName) VALUES (:firstNameInput, :lastNameInput);
 
 -- edit an author
-UPDATE Authors SET Authors.firstName = :firstNameInput, Authors.lastName = :lastNameInput WHERE authorID =: update_Authors_authorID;
+UPDATE Authors SET Authors.firstName = :firstNameInput, Authors.lastName = :lastNameInput WHERE authorID = :update_Authors_authorID;
 
 -- delete an author
 DELETE FROM Authors WHERE Authors.authorID = :delete_Authors_authorID;
