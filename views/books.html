@@ -20,105 +20,102 @@
             <a href="checkouts.html">Checkouts</a> 
             ]  
         </nav>
-        <div id="browse" style="display: block">
-            <p>
-                <strong>Browse Books</strong>
-                <br>
-                Click the title of a book to see its author(s)
-            </p>
+        
+        <div class="data-table" style="display: block">
+            <div class="page-sub-heading">
+                <h3>Book Collections</h3>
+                <p>Click the title of a book to see its author(s) {Sample for bookID 1 only}</p>
+            </div>
             <table border="1" cellpadding="5">
                 <tbody>
                     <tr>
-                        <th>
-                            <a href="#">Add New Book</a>
-                        </th>
-                        <th></th>
                         <th>ID</th>
                         <th>Title</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Book</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Book</a>
-                        </td>
                         <td>1</td>
                         <td>
-                            <a href=#>B.F.F.: A Memoir of Friendship Lost and Found</a>
-                        </td></tr>
+                            <a href='javascript:;' onclick="showAuthor();">B.F.F.: A Memoir of Friendship Lost and Found</a>
+                        </td>
+                        <td>
+                            <button value="1" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="B.F.F.: A Memoir of Friendship Lost and Found" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
+                    </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Book</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Book</a>
-                        </td>
                         <td>2</td>
                         <td>
                             <a href=#>Victory City: A Novel</a>
                         </td>
+                        <td>
+                            <button value="2" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Victory City: A Novel" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Book</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Book</a>
-                        </td>
                         <td>3</td>
                         <td>
                             <a href=#>River Sing Me Home</a>
                         </td>
+                        <td>
+                            <button value="3" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="River Sing Me Home" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Book</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Book</a>
-                        </td>
                         <td>4</td>
                         <td>
                             <a href=#>Big Swiss: A Novel</a>
                         </td>
+                        <td>
+                            <button value="4" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Big Swiss: A Novel" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Book</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Book</a>
-                        </td>
                         <td>5</td>
                         <td>
                             <a href=#>Pretend I'm Dead: A Novel</a>
                         </td>
+                        <td>
+                            <button value="5" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Pretend I'm Dead: A Novel" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Book</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Book</a>
-                        </td>
                         <td>6</td>
                         <td>
                             <a href=#>Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch</a>
                         </td>
+                        <td>
+                            <button value="6" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <p>&nbsp;</p>
         </div>
-        <div id="results" style="display: block">
-            <p>
-                <strong>View Author(s)</strong>
-            </p>
+
+        <div id="author-result" style="display: none">
+            <h4>View Author(s)</h4>
             <table border="1" cellpadding="5">
                 <tbody>
                     <tr>
-                        <th>Book</th>
+                        <th>Book Title</th>
                         <th>Author</th>
                     </tr>
                     <tr>    
@@ -131,37 +128,39 @@
                     </tr>
                 </tbody>
             </table>
-            <p>&nbsp;</p>
         </div>
-        <div id="insert" style="display: block">
-            <form id="addBook">
+
+        <div id="insert-book" style="display: block">
+            <form id="add-book">
                 <legend>
-                    <strong>Add Book</strong>
+                    <h4>Add Book</h4>
                 </legend>
                 <fieldset class="fields">
-                    <label>Book Title: </label>
-                    <input type="text" name="bookTitle">
-                    <label>Author: </label>
-                    <select name="books" id="books">
-                        <option value="1">Christie Tate</option>
-                        <option value="2">Salman Rushdie</option>
-                        <option value="3">Eleanor Shearer</option>
-                        <option value="4">Jen Beagin</option>
-                        <option value="5">Terry Pratchett</option>
-                        <option value="6">Neil Gaiman</option>
-                    </select>
+                    <p>
+                        <label>Book Title: </label>
+                        <input type="text" name="book-title">
+                    </p>
+                    <p>
+                        <label>Author First Name: </label>
+                        <input type="text" name="add-author-first-name">
+                        <label>Author Last Name: </label>
+                        <input type="text" name="add-author-last-name">
+                    </p>
+                    <div id="extra-author-container"></div>
+                    <a href="#" id="extra-author" onclick="extraAuthor()">Another Author?</a>
                 </fieldset>
-                <input class="btn" type="submit" id="addMember" value="Add Book">
+                <input class="btn" type="submit" id="add-member-btn" value="Add Book">
             </form>
         </div>
-        <div id="update" style="display: block">
-            <form id="editBook">
+        
+        <div id="edit" style="display: none">
+            <form id="edit-book">
                 <legend>
-                    <strong>Edit Book</strong>
+                    <h4>Edit Book</h4>
                 </legend>
                     <fieldset class="fields">
                         <label for="books"> Book ID & Title: </label>
-                        <select name="books" id="books">
+                        <select name="books" id="dropdown-books">
                             <option value="1">1: "B.F.F.: A Memoir of Friendship Lost and Found"</option>
                             <option value="2">2: "Victory City: A Novel"</option>
                             <option value="3">3: "River Sing Me Home"</option>
@@ -170,12 +169,66 @@
                             <option value="6">6: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch"</option>
                         </select>
                         <p>
-                            Updated Book Title: 
-                            <input type="text" name="bookTitle" value="">
+                            Updated Book Title:
+                            <input type="text" name="book-title" value="">
                         </p>
                     </fieldset>
-                <input class="btn" type="submit" id="editBook" value="Save Changes">
+                <input class="btn" type="submit" id="edit-book" value="Save Changes" onclick="confirmEdit()">
             </form>
         </div>
+
+        <script type="text/javascript">    
+            function showAuthor() {
+                const div_form = document.getElementById('author-result');
+                if (div_form.style.display === 'none') {
+                    div_form.style.display = 'block';
+                } else {
+                    div_form.style.display = 'none';
+                }
+            }
+
+            function showEdit(value) {
+                const div_form = document.getElementById('edit');
+                if (div_form.style.display === 'none') {
+                    div_form.style.display = 'block';
+                } else {
+                    div_form.style.display = 'none';
+                }
+                const dropdown_list = document.getElementById('dropdown-books');
+                dropdown_list.value = value;
+            }
+            
+            function confirmDelete(title) {
+                return confirm (`Are you sure you want to delete:\n${title}?`);
+            }
+
+            function confirmEdit() {
+                return confirm ("Are you sure you want to make the changes?");
+            }
+
+            function extraAuthor() {
+                const add_book_form = document.getElementById('extra-author-container')
+                
+                const new_para = document.createElement('p');
+                
+                const new_first_name_label = document.createElement('label');
+                new_first_name_label.textContent = 'Author First Name: ';
+                const new_first_name = document.createElement('input');
+                new_first_name.type = "text";
+
+                const new_last_name_label = document.createElement('label');
+                new_last_name_label.textContent = 'Author Last Name: ';
+                const new_last_name = document.createElement('input');
+                new_last_name.type = "text";
+
+                new_para.appendChild(new_first_name_label);
+                new_para.appendChild(new_first_name);
+                new_para.appendChild(new_last_name_label);
+                new_para.appendChild(new_last_name);
+
+                add_book_form.appendChild(new_para);
+            }
+
+        </script>
     </body>
 </html>

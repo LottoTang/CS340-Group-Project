@@ -20,101 +20,100 @@
             <a href="checkouts.html">Checkouts</a> 
             ]  
         </nav>
-        <div id="browse" style="display: block">
-            <p>
-                <strong>Book Copies</strong>
-            </p>
+        <div id="data-table" style="display: block">
+            <div class="page-sub-heading">
+                <h3>Book Collections - all individual copies</h3>
+            </div>
             <table border="1" cellpadding="5">
                 <tbody>
                     <tr>
-                        <th>
-                            <a href="#">Book Copies</a>
-                        </th>
                         <th>Book Copy ID</th>
                         <th>Book ID</th>
                         <th>Book Title</th>
                         <th>Book Status</th>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Delete Book Copy</a>
-                        </td>
                         <td>1</td>
                         <td>1</td>
                         <td>B.F.F.: A Memoir of Friendship Lost and Found</td>
                         <td>CHECKED-OUT</td>
+                        <td>
+                            <button value="B.F.F.: A Memoir of Friendship Lost and Found" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Delete Book Copy</a>
-                        </td>
                         <td>2</td>
                         <td>1</td>
                         <td>B.F.F.: A Memoir of Friendship Lost and Found</td>
                         <td>AVAILABLE</td>
+                        <td>
+                            <button value="B.F.F.: A Memoir of Friendship Lost and Found" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Delete Book Copy</a>
-                        </td>
                         <td>3</td>
                         <td>2</td>
                         <td>Victory City: A Novel</td>
                         <td>CHECKED-OUT</td>
+                        <td>
+                            <button value="Victory City: A Novel" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Delete Book Copy</a>
-                        </td>
                         <td>4</td>
                         <td>3</td>
                         <td>River Sing Me Home</td>
                         <td>CHECKED-OUT</td>
+                        <td>
+                            <button value="River Sing Me Home" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
+                        
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Delete Book Copy</a>
-                        </td>
                         <td>5</td>
                         <td>3</td>
                         <td>River Sing Me Home</td>
                         <td>CHECKED-OUT</td>
+                        <td>
+                            <button value="River Sing Me Home" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
+                        
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Delete Book Copy</a>
-                        </td>
                         <td>6</td>
                         <td>4</td>
                         <td>Big Swiss: A Novel</td>
                         <td>AVAILABLE</td>
+                        <td>
+                            <button value="Big Swiss: A Novel" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Delete Book Copy</a>
-                        </td>
                         <td>7</td>
                         <td>5</td>
                         <td>Pretend I'm Dead: A Novel</td>
                         <td>AVAILABLE</td>
+                        <td>
+                            <button value="Pretend I'm Dead: A Novel" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Delete Book Copy</a>
-                        </td>
                         <td>8</td>
                         <td>6</td>
                         <td>Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch</td>
                         <td>CHECKED-OUT</td>
+                        <td>
+                            <button value="Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <p>&nbsp;</p>
         </div>
+        
         <div id="insert" style="display: block">
-            <form id="newBookCopy">
+            <form id="new-book-copy">
                 <legend>
-                    <strong>New Book Copy</strong>
+                    <h4>Add Book Copy</h4>
                 </legend>
                 <p>The dropdown list contains the registered books in the database system:</p>
                 <fieldset class="fields">
@@ -128,21 +127,31 @@
                         <option value="6">6: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch"</option>
                     </select>
                 </fieldset>
-                <input class="btn" type="submit" id="newBookCopy" value="newBookCopy">
+                <input class="btn" type="submit" id="add-book-copy" value="Add Book Copy">
             </form>
         </div>
+
         <div id="findBookCopy" style="display: block">
             <form id="findBookCopy">
                 <legend>
-                    <strong>Find Book Copy</strong>
-                    <p>Enter the keyword of a book title to display the relevent results</p>
+                    <h4>Find Book Copy</h4>
+                    <p>Enter the keyword(s) of a book title to search for relevant results</p>
                 </legend>
                 <fieldset class="fields">
                     <label>Keyword: </label>
-                    <input type="text" name="bookKeyword" id="bookKeyword">
+                    <input type="text" name="book-keyword" id="book-keyword">
                 </fieldset>
-                <input class="btn" type="submit" id="addMember" value="Find">
+                <input class="btn" type="submit" id="search-book" value="Search">
             </form>
         </div>
+
+        <script type="text/javascript">    
+            
+            function confirmDelete(title) {
+                return confirm (`Are you sure you want to delete:\n${title}?`);
+            }
+
+        </script>
+
     </body>
 </html>

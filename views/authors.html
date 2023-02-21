@@ -20,118 +20,159 @@
             <a href="checkouts.html">Checkouts</a> 
             ] 
         </nav>
-        <div id="browse" style="display: block">
-            <p>
-                <strong>Browse Authors</strong>
-            </p>
+        <div class="data-table" style="display: block">
+            <div class="page-sub-heading">
+                <h3>Authors</h3>
+                <p>Authors for all books in Bedford Library</p>
+            </div>
             <table border="1" cellpadding="5">
                 <tbody>
                     <tr>
-                        <th>
-                            <a href="#">Add New Author</a>
-                        </th>
-                        <th></th>
                         <th>ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Author</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Author</a>
-                        </td>
                         <td>1</td>
                         <td>Christie</td>
                         <td>Tate</td>
+                        <td>
+                            <button value="1" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Christie Tate" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Author</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Author</a>
-                        </td>
                         <td>2</td>
                         <td>Salman</td>
                         <td>Rushdie</td>
+                        <td>
+                            <button value="2" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Salman Rushdie" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Author</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Author</a>
-                        </td>
                         <td>3</td>
                         <td>Eleanor</td>
                         <td>Shearer</td>
+                        <td>
+                            <button value="3" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Eleanor Shearer" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Author</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Author</a>
-                        </td>
                         <td>4</td>
                         <td>Jen</td>
                         <td>Beagin</td>
+                        <td>
+                            <button value="4" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Jen Beagin" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Author</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Author</a>
-                        </td>
                         <td>5</td>
                         <td>Terry</td>
                         <td>Pratchett</td>
+                        <td>
+                            <button value="5" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Terry Pratchett" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Author</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Author</a>
-                        </td>
                         <td>6</td>
                         <td>Neil</td>
                         <td>Gaiman</td>
+                        <td>
+                            <button value="6" onClick="showEdit(this.value)"> Edit </button>
+                        </td>
+                        <td>
+                            <button value="Neil Gaiman" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <p>&nbsp;</p>
         </div>
-        <div id="insert" style="display: block">
-            <form id="addAuthor">
+
+        <div id="insert-author" style="display: block">
+            <form id="add-author">
                 <legend>
-                    <strong>Add Author</strong>
+                    <h4>Add Author</h4>
                 </legend>
                 <fieldset class="fields">
-                    <label>First Name: </label>
-                    <input type="text" name="authorFirstName">
-                    <label>Last Name: </label>
-                    <input type="text" name="authorLastName">
+                    <p>
+                        <label>First Name: </label>
+                        <input type="text" name="authorFirstName">
+                    </p>
+                    <p>
+                        <label>Last Name: </label>
+                        <input type="text" name="authorLastName">
+                    </p>
                 </fieldset>
-                <input class="btn" type="submit" id="addAuthor" value="Add Author">
+                <input class="btn" type="submit" id="add-author-btn" value="Add Author">
             </form>
         </div>
-        <div id="update" style="display: block">
-            <form id="editAuthor">
+
+        <div id="edit" style="display: none">
+            <form id="edit-author">
                 <legend>
-                    <strong>Edit Author</strong>
+                    <h4>Edit Author</h4>
                 </legend>
-                <fieldset class="fields">
-                    <label>First Name: </label>
-                    <input type="text" name="authorFirstName" value="Terry">
-                    <label>Last Name: </label>
-                    <input type="text" name="authorLastName" value="Pratchett">
-                </fieldset>
-                <input class="btn" type="submit" id="editAuthor" value="Save Changes">
+                    <fieldset class="fields">
+                        <label for="authors"> Author: </label>
+                        <select name="authors" id="dropdown-authors">
+                            <option value="1">1: "Christie Tate"</option>
+                            <option value="2">2: "Salman Rushdie"</option>
+                            <option value="3">3: "Eleanor Shearer"</option>
+                            <option value="4">4: "Jen Beagin"</option>
+                            <option value="5">5: "Terry Pratchett"</option>
+                            <option value="6">6: "Neil Gaiman"</option>
+                        </select>
+                        <p>
+                            Updated First Name:
+                            <input type="text" id="author-first-name" value="">
+                        </p>
+                        <p>
+                            Updated Last Name:
+                            <input type="text" id="author-last-name" value="">
+                        </p>
+                    </fieldset>
+                <input class="btn" type="submit" id="editBook" value="Save Changes" onclick="confirmEdit()">
             </form>
         </div>
+        
+        <script type="text/javascript">    
+            function showEdit(value) {
+                const div_form = document.getElementById('edit');
+                if (div_form.style.display === 'none') {
+                    div_form.style.display = 'block';
+                } else {
+                    div_form.style.display = 'none';
+                }
+                const dropdown_list = document.getElementById('dropdown-authors');
+                dropdown_list.value = value;
+            }
+            
+            function confirmDelete(title) {
+                return confirm (`Are you sure you want to delete:\n${title}?`);
+            }
+
+            function confirmEdit() {
+                return confirm ("Are you sure you want to make the changes?");
+            }
+        </script>
+
+
+
     </body>
 </html>
