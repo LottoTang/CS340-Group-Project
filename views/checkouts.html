@@ -21,14 +21,17 @@
             ]  
         </nav>
         <div id="browse" style="display: block">
+            <h3>
+                Browse Checkouts
+            </h3>
             <p>
-                <strong>Browse Checkouts</strong>
+                [Edit button functionality only accurate for Checkout #2]
             </p>
             <table border="1" cellpadding="5">
                 <tbody>
                     <tr>
                         <th>
-                            <button> New Checkout </button>
+                            <button onClick="showNewCheckout()"> New Checkout </button>
                         </th>
                         <th>ID</th>
                         <th>Start Time</th>
@@ -37,11 +40,11 @@
                         <th>Book Title</th>
                         <th>Member ID</th>
                         <th>Member Name</th>
+                        <th></th>
                     </tr>
                     <tr>
                         <td>
-                            <button> Return </button>
-                            <button> Edit </button>
+                            <button value="1return" id="1return" display="inline" onClick="returnBook(this.id)"> Return Book </button>
                         </td>
                         <td>1</td>
                         <td>2023-02-04 14:12:54</td>
@@ -50,11 +53,13 @@
                         <td>Big Swiss: A Novel</td>
                         <td>1</td>
                         <td>Dorothy Andrews</td>
+                        <td>
+                            <button value="1" onClick="showEditCheckout()"> Edit </button>
+                        </td>
                     </tr>
                     <tr>
                         <td>
-                            <button> Return </button>
-                            <button> Edit </button>
+                            <button value="2return" id="2return" display="inline" onClick="returnBook(this.value)"> Return Book </button>
                         </td>
                         <td>2</td>
                         <td>2023-02-05 9:19:14</td>
@@ -63,6 +68,9 @@
                         <td>Pretend I'm Dead: A Novel</td>
                         <td>2</td>
                         <td>James Pressman</td>
+                        <th>
+                            <button value ="2" onClick="showEditCheckout()"> Edit </button>
+                        </th>
                     </tr>
                 </tbody>
             </table>
@@ -83,7 +91,8 @@
                 <input class="btn" type="submit" id="addMember" value="Find">
             </form>
         </div>
-        <div id="insert" style="display: block">
+
+        <div id="insert" style="display: none">
             <form id="newCheckout">
                 <legend>
                     <strong>New Checkout</strong>
@@ -102,14 +111,14 @@
                     </select>
                     <p>&nbsp;</p>
                     <label for="members"> Member telephone number: </label>
-                    <input type="tel" name="members" id="members" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                    <input type="tel" name="members" id="membersNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
                     <small>Format: 123-456-7890</small>
                 </fieldset>
                 <input class="btn" type="submit" id="newCheckout" value="Check Out">
             </form>
         </div>
         
-        <div id="edit" style="display: block">
+        <div id="edit" style="display: none">
             <form id="editCheckout">
                 <legend>
                     <strong>Edit Checkout</strong>
@@ -183,8 +192,40 @@
                     <br>
                     <br>
                 </fieldset>
-                <input class="btn" type="submit" id="editCheckout" value="Submit">
+                <input onClick="confirmEdit()" class="btn" type="submit" id="editCheckout" value="Submit">
             </form>
         </div>
+
+
+        <script type="text/javascript">
+
+            function showEditCheckout() {
+                const div_form = document.getElementById('edit');
+                if (div_form.style.display === "none") {
+                    div_form.style.display = "block";
+                } else {
+                    div_form.style.display = "none";
+                }
+            }
+
+            function showNewCheckout() {
+                const div_form = document.getElementById('insert');
+                if (div_form.style.display === "none") {
+                    div_form.style.display = "block";
+                } else {
+                    div_form.style.display = "none";
+                }
+            }
+
+            function returnBook(checkout) {
+                document.getElementById(checkout).style.display = 'none';
+            }
+
+            function confirmEdit() {
+                return confirm ('Are you sure you want to submit these changes?');
+            }
+
+
+        </script>
     </body>
 </html>
