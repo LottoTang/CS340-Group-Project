@@ -28,7 +28,7 @@
                 <tbody>
                     <tr>
                         <th>
-                            <a href="#">New Checkout</a>
+                            <button> New Checkout </button>
                         </th>
                         <th>ID</th>
                         <th>Start Time</th>
@@ -40,7 +40,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href="#">Return Book</a>
+                            <button> Return </button>
+                            <button> Edit </button>
                         </td>
                         <td>1</td>
                         <td>2023-02-04 14:12:54</td>
@@ -52,7 +53,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href="#">Return Book</a>
+                            <button> Return </button>
+                            <button> Edit </button>
                         </td>
                         <td>2</td>
                         <td>2023-02-05 9:19:14</td>
@@ -104,6 +106,84 @@
                     <small>Format: 123-456-7890</small>
                 </fieldset>
                 <input class="btn" type="submit" id="newCheckout" value="Check Out">
+            </form>
+        </div>
+        
+        <div id="edit" style="display: block">
+            <form id="editCheckout">
+                <legend>
+                    <strong>Edit Checkout</strong>
+                </legend>
+                <fieldset class="fields">
+                    <table border="1" cellpadding="5">
+                        <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>Start Time</th>
+                                <th>Returned?</th>
+                                <th>Book Copy ID</th>
+                                <th>Book Title</th>
+                                <th>Member ID</th>
+                                <th>Member Name</th>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>2023-02-05 9:19:14</td>
+                                <td>0</td>
+                                <td>5</td>
+                                <td>Pretend I'm Dead: A Novel</td>
+                                <td>2</td>
+                                <td>James Pressman</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                    <label for="editBookCheckout" > 
+                        <strong> 
+                            Change book:
+                        </strong>
+                    </label>
+                    <br>
+                    <select name="editBookCheckout" id="editBookCheckout">
+                        <option value="1">1: "B.F.F.: A Memoir of Friendship Lost and Found"</option>
+                        <option value="2">2: "B.F.F.: A Memoir of Friendship Lost and Found"</option>
+                        <option value="3">3: "Victory City: A Novel"</option>
+                        <option value="4">4: "River Sing Me Home"</option>
+                        <option value="5">5: "River Sing Me Home"</option>
+                        <option value="6">6: "Big Swiss: A Novel"</option>
+                        <option value="7">7: "Pretend I'm Dead: A Novel"</option>
+                        <option value="8">8: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch"</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label for="members" > 
+                        <strong> 
+                            Change member associated with this checkout:
+                        </strong>
+                    </label>
+                    <br>
+                    <input type="radio" id="newMember" name="changeMember" value="newMember">
+                    <label for="newMember">                    
+                        <input type="tel" name="members" id="members" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                        <small>
+                            Format: 123-456-7890
+                        </small>
+                    </label>
+                    <br>
+                    <input type="radio" id="nullMember" name="changeMember" value="NULL">
+                    <label for="nullMember"> No member associated with this checkout </label>
+                    <br>
+                    <br>
+                    <label for="returned"> Is the book returned? </label>
+                    <select name="returned" id="returned">
+                        <option value="0"> No </option>
+                        <option value="1"> Yes </option>
+                    </select>
+                    <br>
+                    <br>
+                </fieldset>
+                <input class="btn" type="submit" id="editCheckout" value="Submit">
             </form>
         </div>
     </body>
