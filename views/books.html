@@ -140,14 +140,26 @@
                         <label>Book Title: </label>
                         <input type="text" name="book-title">
                     </p>
-                    <p>
-                        <label>Author First Name: </label>
-                        <input type="text" name="add-author-first-name">
-                        <label>Author Last Name: </label>
-                        <input type="text" name="add-author-last-name">
-                    </p>
-                    <div id="extra-author-container"></div>
-                    <a href="#" id="extra-author" onclick="extraAuthor()">Another Author?</a>
+                    <div id="dropdown-list-container">
+                        <p id="dropdown-list">
+                            <label>Author Name: </label>
+                            <select name="books" id="dropdown-book-authors">
+                                <option value="NA">-- Author Not Found --</option>
+                                <option value="Christie Tate">Christie Tate</option>
+                                <option value="Salman Rushdie">Salman Rushdie</option>
+                                <option value="Eleanor Shearer">Eleanor Shearer</option>
+                                <option value="Jen Beagin">Jen Beagin</option>
+                                <option value="Terry Pratchett">Terry Pratchett</option>
+                                <option value="Neil Gaiman">Neil Gaiman</option>
+                            </select>
+                        </p>
+                    </div>
+                    <div id="extra-author-container" style="display: block">
+                        <span>
+                            <a href="#" id="extra-author" onclick="extraAuthor()">Click Here if Co-Author</a>
+                            <a href="#" id="register-author" onclick="registerAuthor()">Click Here to Register New Author</a>
+                        </span>
+                    </div>
                 </fieldset>
                 <input class="btn" type="submit" id="add-member-btn" value="Add Book">
             </form>
@@ -206,8 +218,8 @@
                 return confirm ("Are you sure you want to make the changes?");
             }
 
-            function extraAuthor() {
-                const add_book_form = document.getElementById('extra-author-container')
+            function registerAuthor() {
+                const add_book_form = document.getElementById('dropdown-list-container');
                 
                 const new_para = document.createElement('p');
                 
@@ -217,7 +229,7 @@
                 new_first_name.type = "text";
 
                 const new_last_name_label = document.createElement('label');
-                new_last_name_label.textContent = 'Author Last Name: ';
+                new_last_name_label.textContent = ' Author Last Name: ';
                 const new_last_name = document.createElement('input');
                 new_last_name.type = "text";
 
@@ -227,6 +239,11 @@
                 new_para.appendChild(new_last_name);
 
                 add_book_form.appendChild(new_para);
+            }
+
+            function extraAuthor() {
+                const select = document.getElementById('dropdown-list').cloneNode(true);
+                document.getElementById('dropdown-list-container').appendChild(select);
             }
 
         </script>
