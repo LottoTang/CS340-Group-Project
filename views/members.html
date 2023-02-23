@@ -20,78 +20,74 @@
             <a href="checkouts.html">Checkouts</a> 
             ]
         </nav> 
+
         <div id="browse" style="display: block">
-            <p>
-                <strong>Browse Members</strong>
-            </p>
+            <div class="page-sub-heading">
+                <h3>
+                    Browse Members
+                </h3>
+                <p>[Functionality for edit button currently only works for James]</p>
+            </div>
             <table border="1" cellpadding="5">
                 <tbody>
                     <tr>
-                        <th>
-                            <a href="#">Add New Member</a>
-                        </th>
-                        <th></th>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Contact Number</th>
                         <th>Current Address</th>
                         <th>Email</th>
+                        <th></th>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Member</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Member</a>
-                        </td>
                         <td>1</td>
                         <td>Dorothy Andrews</td>
                         <td>949-227-2436</td>
                         <td>4823 Harley Brook Lane, Bedford, PA</td>
                         <td>gloria2013@fake.com</td>
+                        <td>
+                            <button value="1" onClick="showEditMember();"> Edit </button>
+                            <button value="Dorothy Andrews" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Member</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Member</a>
-                        </td>
                         <td>2</td>
                         <td>James Pressman</td>
                         <td>641-583-0777</td>
                         <td>3152 Custer Street, Bedford, PA</td>
                         <td>iliana2013@fake.com</td>
+                        <td>
+                            <button value="2" onClick="showEditMember();"> Edit </button>
+                            <button value="James Pressman" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Member</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Member</a>
-                        </td>
+                        
                         <td>3</td>
                         <td>Amanda Johnson</td>
                         <td>510-840-3869</td>
                         <td>3691 Stutler Lane La, Bedford, PA</td>
                         <td>amandajohnson2013@fake.com</td>
+                        <td>
+                            <button value="3" onClick="showEditMember();"> Edit </button>
+                            <button value="Amanda Johnson" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>
-                            <a href="#">Edit Member</a>
-                        </td>
-                        <td>
-                            <a href="#">Delete Member</a>
-                        </td>
+                        
                         <td>4</td>
                         <td>Margaret Waugh</td>
                         <td>814-977-9583</td>
                         <td>2349 Custer Street, Bedford, PA</td>
                         <td>bettiehalvors@fake.com</td>
+                        <td>
+                            <button value="4" onclick="showEditMember();"> Edit </button>
+                            <button value="Margaret Waugh" onclick="confirmDelete(this.value)"> Delete </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <p>&nbsp;</p>
+            <br>
+            <br>
         </div>
         <div id="insert" style="display: block">
             <form id="addMember">
@@ -103,45 +99,93 @@
                     <input type="text" name="fname">
                     <label>Last Name: </label>
                     <input type="text" name="lname">
-                    <p>&nbsp;</p>
+                    <br>
+                    <br>
                     <label>Phone: </label>
                     <input type="tel" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
                     <small>Format: 123-456-7890</small>
-                    <p>&nbsp;</p>
+                    <br>
+                    <br>
                     <label>Home address: </label>
                     <input type="text" name="address">
-                    <p>&nbsp;</p>
+                    <br>
+                    <br>
                     <label>Email address:</label>
                     <input type="email" name="email">
-                    <p>&nbsp;</p>
+                    <br>
+                    <br>
                 </fieldset>
                 <input class="btn" type="submit" id="addMember" value="Add Member">
             </form>
         </div>
-        <div id="update" style="display: block">
+
+        <div id="edit" style="display:none;">
             <form id="editMember">
                 <legend>
-                    <strong>Edit Member</strong>
+                    <h4>Edit Member</h4>
                 </legend>
                 <fieldset class="fields">
+                    <table border="1" cellpadding="5">
+                        <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Contact Number</th>
+                                <th>Current Address</th>
+                                <th>Email</th>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>James Pressman</td>
+                                <td>641-583-0777</td>
+                                <td>3152 Custer Street, Bedford, PA</td>
+                                <td>iliana2013@fake.com</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
                     <label>First Name: </label>
                     <input type="text" name="fname" value="James">
                     <label>Last Name: </label>
                     <input type="text" name="lname" value="Pressman">
-                    <p>&nbsp;</p>
+                    <br>
+                    <br>
                     <label>Phone: </label>
                     <input type="tel" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="641-583-0777">
                     <small>Format: 123-456-7890</small>
-                    <p>&nbsp;</p>
+                    <br>
+                    <br>
                     <label>Home address: </label>
                     <input type="text" name="address" value="3152 Custer Street, Bedford, PA">
-                    <p>&nbsp;</p>
+                    <br>
+                    <br>
                     <label>Email address:</label>
                     <input type="email" name="email" value="iliana2013@fake.com">
-                    <p>&nbsp;</p>
+                    <br>
+                    <br>
                 </fieldset>
-                <input class="btn" type="submit" id="editMember" value="Save Changes">
+                <input class="btn" type="submit" id="editMember" onClick="confirmSave()" value="Save Changes">
             </form>
         </div>
+
+        <script type="text/javascript">
+
+            function showEditMember() {
+                const div_form = document.getElementById('edit');
+                if (div_form.style.display === "none") {
+                    div_form.style.display = "block";
+                } else {
+                    div_form.style.display = "none";
+                }
+            }
+
+            function confirmDelete(member) {
+                return confirm (`Are you sure you want to delete:\n${member}?`);
+            }
+
+            function confirmSave() {
+                return confirm ('Are you sure you want to make these changes?')
+            }
+        </script>
     </body>
 </html>
