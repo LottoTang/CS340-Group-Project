@@ -8,13 +8,13 @@ addBookForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputBookTitle = document.getElementById("input-bookTitle");
+    const inputBookTitle = document.getElementById("input-bookTitle");
 
     // Get the values from the form fields
-    let bookTitleValue = inputBookTitle.value;
+    const bookTitleValue = inputBookTitle.value;
 
     // Put our data we want to send in a javascript object
-    let data = {
+    const data = {
         title: bookTitleValue
     }
     

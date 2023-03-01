@@ -3,49 +3,79 @@
 
     {{!-- Header section --}}
     <thead>
-
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-            <th>Update</th>
-            <th>Delete</th>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
 
     {{!-- Body section --}}
     <tbody>
-
         {{!-- For each row, print the id and title, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value="{{this.authorID}}">
             <td>{{this.authorID}}</td>
             <td>{{this.firstName}}</td>
             <td>{{this.lastName}}</td>
-            <td><button type="button">Update</button></td>
-            <td><button type="button">Delete</button></td>
+            <td><button onclick="showEditAuthor({{this.authorID}})">Edit</button></td>
+            <td><button onclick="deleteAuthor({{this.authorID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 
-{{!-- Form to add a record to the table  --}}
+{{!-- Form to add a record --}}
 <form id="add-author-form-ajax">
     <fieldset>
-        <legend>Add Author</legend>
+        <legend>
+            <h3>Add Author</h3>
+        </legend>
+        <p>
             <label for="input-author-firstName">First Name: </label>
             <input type="text" name="input-author-firstName" id="input-author-firstName">
-
+        </p>
+        <p>
             <label for="input-author-lastName">Last Name: </label>
             <input type="text" name="input-author-lastName" id="input-author-lastName">
-            <input type="submit">
+        </p>
+        <input type="submit" id="add-author-form-ajax-submit">
     </fieldset>
 </form>
 
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_author.js"></script>
+{{!-- Form to edit a record --}}
+<div id="edit-author" style="display: none">
+    <form id="edit-author-form-ajax">
+        <fieldset>
+            <legend>
+                <h3>Edit Author</h3>
+            </legend>
+            <label for="authors"> Author: </label>
+            
+            <select name="authors" id="dropdown-authors-ajax">
+                {{#each data}}
+                    <option value="{{this.authorID}}"> {{this.authorID}} {{this.firstName}} {{this.lastName}}</option>
+                {{/each}}
+            </select>
+            
+            <p>
+                <label for="edit-author-firstName">Updated First Name: </label>
+                <input type="text" name="edit-author-firstName" id="edit-author-firstName">
+            </p>
+            <p>
+                <label for="edit-author-lastName">Updated Last Name: </label>
+                <input type="text" name="edit-author-lastName" id="edit-author-lastName">
+            </p>
+            <input class="btn" type="submit" id="editBook" value="Save Changes"">
+        </fieldset>
+    </form>
+</div>
 
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_authors.js"></script>
+<script src="./js/delete_authors.js"></script>
+<script src="./js/edit_authors.js"></script>
