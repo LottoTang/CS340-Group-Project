@@ -19,7 +19,7 @@
 .env.production.local
 
 # specific files
-db-connector.js
+/database/db-connector.js
 
 npm-debug.log*
 yarn-debug.log*

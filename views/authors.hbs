@@ -1,12 +1,17 @@
 {{!-- Create a table --}}
 <table id="author-table">
 
+    <div class="page-sub-heading">
+        <h2>Author Catalogue</h2>
+        <p>Authors of all books recorded in Bedford Library</p>
+    </div>
+
     {{!-- Header section --}}
     <thead>
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
-            <th>ID</th>
+            <th>Index</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th></th>
@@ -19,11 +24,11 @@
         {{!-- For each row, print the id and title, in order --}}
         {{#each data}}
         <tr data-value="{{this.authorID}}">
-            <td>{{this.authorID}}</td>
+            <td>{{counter @index}}</td>
             <td>{{this.firstName}}</td>
             <td>{{this.lastName}}</td>
-            <td><button onclick="showEditAuthor({{this.authorID}})">Edit</button></td>
-            <td><button onclick="deleteAuthor({{this.authorID}})">Delete</button></td>
+            <td><button type="button" onclick="showEditAuthor({{this.authorID}})">Edit</button></td>
+            <td><button type="button" onclick="deleteAuthor({{this.authorID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
@@ -54,14 +59,14 @@
             <legend>
                 <h3>Edit Author</h3>
             </legend>
-            <label for="authors"> Author: </label>
-            
-            <select name="authors" id="dropdown-authors-ajax">
-                {{#each data}}
+            <p>
+                <label for="authors"> Author: </label>
+                <select name="authors" id="dropdown-authors-ajax">
+                    {{#each data}}
                     <option value="{{this.authorID}}"> {{this.authorID}} {{this.firstName}} {{this.lastName}}</option>
-                {{/each}}
-            </select>
-            
+                    {{/each}}
+                </select>
+            </p>
             <p>
                 <label for="edit-author-firstName">Updated First Name: </label>
                 <input type="text" name="edit-author-firstName" id="edit-author-firstName">
@@ -70,7 +75,7 @@
                 <label for="edit-author-lastName">Updated Last Name: </label>
                 <input type="text" name="edit-author-lastName" id="edit-author-lastName">
             </p>
-            <input class="btn" type="submit" id="editBook" value="Save Changes"">
+            <input class="btn" type="submit" id="edit-author-button" value="Save Changes">
         </fieldset>
     </form>
 </div>

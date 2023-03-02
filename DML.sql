@@ -3,7 +3,7 @@
 
 -- BOOKS page
 -- display all Books of the library
-SELECT Books.bookID AS ID, Books.title AS Title FROM Books
+SELECT Books.title AS Title FROM Books ORDER BY Books.title;
 
 -- display the author(s) for any given book when we click on the book
 SELECT Books.title AS Title, CONCAT(Authors.firstName, ' ', Authors.lastName) AS Author FROM Books INNER JOIN
@@ -15,7 +15,7 @@ ORDER BY Authors.lastName
 -- get the dropdown of Authors for adding new books
 SELECT CONCAT(Authors.lastName, Authors.firstName) AS Author 
 FROM Authors
-ORDER BY Authors.lastName;
+ORDER BY Authors.firstName, Authors.lastName;
 
 -- add a book
 INSERT INTO Books (Books.bookTitle) VALUES (:bookTitleInput)
@@ -26,7 +26,7 @@ INSERT INTO BookCopies (BookCopies.bookID) VALUES ( (SELECT Books.bookID FROM Bo
 
 -- edit a book
 -- for better user experience -> show all the book id and the title for choosing as topdown list
-SELECT Books.bookID, Books.title FROM Books ORDER BY Books.bookID
+SELECT Books.bookID, Books.title FROM Books ORDER BY Books.title;
 
 -- after choosing from the topdown list, the value bookID is passed to here for update
 UPDATE Books SET Books.bookTitle = :bookTitleInput WHERE Books.bookID = :update_Books.bookID;
@@ -36,8 +36,8 @@ DELETE FROM Books WHERE Books.bookID = :delete_Books_bookID;
 
 -- AUTHOR page
 -- display all Authors (those books that are in stock in the library)
-SELECT Authors.authorID AS ID, Authors.firstName AS "First Name", Authors.lastName AS "Last Name" FROM Authors
-ORDER BY Authors.authorID;
+SELECT Authors.firstName AS "First Name", Authors.lastName AS "Last Name" FROM Authors
+ORDER BY Authors.firstName, Authors.lastName;
 
 -- add an author
 INSERT INTO Authors (Authors.firstName, Authors.lastName) VALUES (:firstNameInput, :lastNameInput);

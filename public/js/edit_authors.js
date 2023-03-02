@@ -81,14 +81,15 @@ updateAuthorForm.addEventListener("submit", function (e) {
                     // Reassign firstName to our value we updated to
                     td1.innerHTML = parsedData[0].firstName; 
 
-                    // Get td of firstName
+                    // Get td of lastName
                     const td2 = updateRowIndex.getElementsByTagName("td")[2];
 
-                    // Reassign firstName to our value we updated to
+                    // Reassign lastName to our value we updated to
                     td2.innerHTML = parsedData[0].lastName; 
                 }
             }
         }
         window.location.reload();
+        window.alert('Update Successful');
     }
 })

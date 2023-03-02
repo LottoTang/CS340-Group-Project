@@ -11,11 +11,19 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 
+var handlebars = require('handlebars');
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');                     // Import express-handlebars
 app.engine('.hbs', engine({extname: ".hbs"}));                  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 
+/* 
+    HANDLEBARS HELPER FUNCTIONS
+*/
+
+handlebars.registerHelper('counter', function(index){
+    return index + 1;
+});
 
 /*
     DATABASE
@@ -23,25 +31,14 @@ app.set('view engine', '.hbs');                                 // Tell express 
 
 var db = require('./database/db-connector')
 
-
 /*
     ROUTES
 */
 
 app.get('/', function(req, res)
-    {                                                           // Render the index.hbs file, and also send the renderer
-        res.render('index');                                    // an object where 'data' is equal to the 'rows' we                                                 
-    });                                                         // received back from the query                                            
-
-app.get('/books', function(req, res)
-{  
-    let query1 = "SELECT * FROM Books ORDER BY Books.bookID;";                    
-
-    db.pool.query(query1, function(error, rows, fields){    
-
-        res.render('books', {data: rows});                  
-    })                                                      
-}); 
+{                                                               // Render the index.hbs file, and also send the renderer
+    res.render('index');                                        // an object where 'data' is equal to the 'rows' we                                                 
+});                                                             // received back from the query                                            
 
 app.get('/bookCopies', function(req, res)
 {  
@@ -53,13 +50,27 @@ app.get('/bookCopies', function(req, res)
     })                                                      
 }); 
 
-app.get('/authors', function(req, res)
+/*
+    RETRIEVE BOOKS
+*/
+app.get('/books', function(req, res)
 {  
-    let query1 = "SELECT * FROM Authors ORDER BY Authors.authorID;";                    
+    const query1 = "SELECT * FROM Books ORDER BY Books.title"; 
 
-    db.pool.query(query1, function(error, rows, fields){    
+    const query2 = "SELECT * FROM Authors ORDER BY Authors.firstName, Authors.lastName;";
 
-        res.render('authors', {data: rows});                  
+    db.pool.query(query1, function(error, rows, fields) {    
+
+        // save the books
+        const books = rows;
+
+        // run the 2nd query
+        db.pool.query(query2, (error, rows, fields) => {
+
+            // save the authors
+            const authors = rows;
+            return res.render('books', {data: books, authors: authors});
+        })                
     })                                                      
 }); 
 
@@ -80,7 +91,7 @@ app.post('/add-book-ajax', function(req, res)
         }
         else
         {
-            query2 = `SELECT * FROM Books ORDER BY Books.bookID;`;
+            query2 = `SELECT * FROM Books ORDER BY Books.title;`;
             db.pool.query(query2, function(error, rows, fields){
                 if (error) {
                     console.log(error);
@@ -96,14 +107,84 @@ app.post('/add-book-ajax', function(req, res)
 });
 
 /*
+    UPDATE BOOKS
+*/
+
+app.put('/put-book-ajax/', function(req, res){
+    const data = req.body;
+  
+    const bookID = parseInt(data.bookID);
+    const title = data.title;
+  
+    const queryUpdateBook = `UPDATE Books SET title = ? WHERE bookID = ?`;
+  
+        // Run the 1st query
+        db.pool.query(queryUpdateBook, [title, bookID], function(error, rows, fields){
+        if (error) {
+  
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.send(rows);
+        } })
+});
+
+/*
+    DELETE BOOKS
+*/
+
+app.delete('/delete-book-ajax/', function(req, res){
+    let data = req.body;
+    let bookID = parseInt(data.bookID);
+    let delete_Book = `DELETE FROM Books WHERE bookID = ?`;
+
+        // Run the 1st query
+        db.pool.query(delete_Book, [bookID], function(error, rows, fields){
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.sendStatus(204);
+        }})
+});
+
+/*
+    RETRIEVE AUTHORS
+*/
+app.get('/authors', function(req, res)
+{  
+    let query = "SELECT * FROM Authors ORDER BY Authors.firstName, Authors.lastName;";                    
+
+    db.pool.query(query, function(error, rows, fields){    
+
+        res.render('authors', {data: rows});                  
+    })                                                      
+}); 
+
+/*
     ADD AUTHORS
 */
 
 app.post('/add-author-ajax', function(req, res, next)
 {
-    let data = req.body;
+    const data = req.body;
+    var string = '';
+    
+    for (var i = 0; i < data.firstName.length; i++) {
+        string += "( '" + `${data.firstName[i]}` + "', '" + `${data.lastName[i]}` + "' )";
+        if (i < data.firstName.length - 1) {
+            string += ', '
+        }
+        if (i == data.firstName.length - 1) {
+            string += ';'
+        }
+    }
 
-    query1 = `INSERT INTO Authors (firstName, lastName) VALUES ('${data.firstName}', '${data.lastName}')`;
+    query1 = `INSERT INTO Authors (firstName, lastName) VALUES ${string}`;
 
     db.pool.query(query1, function(error, rows, fields) {
         if (error) {
@@ -153,7 +234,6 @@ app.put('/put-author-ajax/', function(req, res){
         } })
 });
 
-
 /*
     DELETE AUTHORS
 */
@@ -174,7 +254,6 @@ app.delete('/delete-author-ajax/', function(req, res){
             res.sendStatus(204);
         }})
 });
-
 
 /*
     ADD BOOK COPY

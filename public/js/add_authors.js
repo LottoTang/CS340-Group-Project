@@ -80,8 +80,7 @@ addAuthorSubmit.addEventListener("click", function (e) {
             // Add the row to the table
             currentTable.appendChild(row);
         }   
-
-        window.location.reload();  
-        
+        window.location.reload();
+        window.alert('Insert Successful');  
     }
 })
