@@ -1,0 +1,134 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<div id="browse" style="display: block">
+    <div class="page-sub-heading">
+        <h2>
+            Library Members
+        </h2>
+        <p>[Functionality for edit button currently only works for James]</p>
+    </div>
+
+
+    <table id="members-table" border="1" cellpadding="5">
+        <thead>
+            <tr>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each data}}
+            <tr>
+                <td>{{this.memberID}}</td>
+                <td>{{this.firstName}}</td>
+                <td>{{this.lastName}}</td>
+                <td>{{this.contactNumber}}</td>
+                <td>{{this.currentAddress}}</td>
+                <td>{{this.email}}</td>
+                <td>
+                    <button value="1" onClick="showEditMember();">Edit</button>
+                </td>
+                <td>
+                    <button onclick="deleteMember({{this.memberID}})">Delete</button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <br>
+    <br>
+</div>
+
+
+<div id="insert" style="display: block">
+    <h3>Add New Members</h3>
+    <form id="add-member-form-ajax">
+        <legend>
+            <strong>Add Member</strong>
+        </legend>
+        <fieldset class="fields">
+
+            <label for="input-firstName">First Name: </label>
+            <input type="text" name="input-firstName" id="input-firstName">
+
+            <label for="input-lastName">Last Name: </label>
+            <input type="text" name="input-lastName" id="input-lastName">
+            <br>
+            <br>
+
+            <label for="input-contactNumber">Phone: </label>
+            <input type="tel" name="input-contactNumber" id="input-contactNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+            <small>Format: 123-456-7890</small>
+            <br>
+            <br>
+            <label for="input-currentAddress">Home address: </label>
+            <input type="text" name="input-currentAddress" id="input-currentAddress">
+            <br>
+            <br>
+            <label for="input-email">Email address:</label>
+            <input type="email" name="input-email" id="input-email">
+            <br>
+            <br>
+            <input class="btn" type="submit">
+        </fieldset>
+    </form>
+</div>
+
+<div id="edit" style="display:none;">
+    <form id="editMember">
+        <legend>
+            <h4>Edit Member</h4>
+        </legend>
+        <fieldset class="fields">
+            <table border="1" cellpadding="5">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Contact Number</th>
+                        <th>Current Address</th>
+                        <th>Email</th>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>James Pressman</td>
+                        <td>641-583-0777</td>
+                        <td>3152 Custer Street, Bedford, PA</td>
+                        <td>iliana2013@fake.com</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <label>First Name: </label>
+            <input type="text" name="fname" value="James">
+            <label>Last Name: </label>
+            <input type="text" name="lname" value="Pressman">
+            <br>
+            <br>
+            <label>Phone: </label>
+            <input type="tel" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="641-583-0777">
+            <small>Format: 123-456-7890</small>
+            <br>
+            <br>
+            <label>Home address: </label>
+            <input type="text" name="address" value="3152 Custer Street, Bedford, PA">
+            <br>
+            <br>
+            <label>Email address:</label>
+            <input type="email" name="email" value="iliana2013@fake.com">
+            <br>
+            <br>
+        </fieldset>
+        <input class="btn" type="submit" id="editMember" onClick="confirmSave()" value="Save Changes">
+    </form>
+</div>
+
+{{!-- Embed JS to handle DOM manipulation and AJAX request --}}
+<script src="./js/add_members.js"></script>
+<script src="./js/delete_member.js"></script>
