@@ -166,25 +166,61 @@ app.get('/authors', function(req, res)
 }); 
 
 /*
-    ADD AUTHORS
+    ADD AUTHORS (For Books Page)
+*/
+
+app.post('/add-author-multiple-ajax', function(req, res, next)
+{
+    const data = req.body;
+    var string = '';
+
+    if (data.firstName.length > 1) {
+        for (var i = 0; i < data.firstName.length; i++) {
+            string += "( '" + `${data.firstName[i]}` + "', '" + `${data.lastName[i]}` + "' )";
+            if (i < data.firstName.length - 1) {
+                string += ', '
+            }
+            if (i == data.firstName.length - 1) {
+                string += ';'
+            }
+        }
+    } else {
+        string += "( '" + `${data.firstName}` + "', '" + `${data.lastName}` + "' );"
+    }
+
+    query1 = `INSERT INTO Authors (firstName, lastName) VALUES ${string}`;
+
+    db.pool.query(query1, function(error, rows, fields) {
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            query2 = `SELECT * FROM Authors ORDER BY Authors.authorID;`;
+            db.pool.query(query2, function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+/*
+    ADD AUTHORS (For Author Page)
 */
 
 app.post('/add-author-ajax', function(req, res, next)
 {
     const data = req.body;
-    var string = '';
-    
-    for (var i = 0; i < data.firstName.length; i++) {
-        string += "( '" + `${data.firstName[i]}` + "', '" + `${data.lastName[i]}` + "' )";
-        if (i < data.firstName.length - 1) {
-            string += ', '
-        }
-        if (i == data.firstName.length - 1) {
-            string += ';'
-        }
-    }
 
-    query1 = `INSERT INTO Authors (firstName, lastName) VALUES ${string}`;
+    query1 = `INSERT INTO Authors (firstName, lastName) VALUES ('${data.firstName}', '${data.lastName}')`;
 
     db.pool.query(query1, function(error, rows, fields) {
         if (error) {

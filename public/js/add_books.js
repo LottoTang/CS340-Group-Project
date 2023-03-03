@@ -141,7 +141,7 @@ addBookSubmit.addEventListener("click", function (e) {
 
             // Setup our AJAX request (add Authors)
             const xhttpAuthor = new XMLHttpRequest();
-            xhttpAuthor.open("POST", "/add-author-ajax", true);
+            xhttpAuthor.open("POST", "/add-author-multiple-ajax", true);
             xhttpAuthor.setRequestHeader("Content-type", "application/json");
 
             // Tell our AJAX request how to resolve
