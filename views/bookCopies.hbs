@@ -1,5 +1,10 @@
+<div class="page-sub-heading">
+    <h2>Book Copies</h2>
+    <p>All Individual Copy in Bedford Library </p>
+</div>
+
 {{!-- Create a table --}}
-<table id="bookCopies-table">
+<table id="book-copy-table" border="1" cellpadding="5">
 
     {{!-- Header section --}}
     <thead>
@@ -7,39 +12,47 @@
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-            <th>Delete</th>
+            <th>Book Copy ID</th>
+            <th>Book Title</th>
+            <th>Book Status</th>
+            <th></th>
         </tr>
     </thead>
 
     {{!-- Body section --}}
     <tbody>
-
         {{!-- For each row, print the id and title, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value="{{this.bookCopyID}}">
             <td>{{this.bookCopyID}}</td>
-            <td>{{this.bookID}}</td>
+            <td>{{this.title}}</td>
             <td>{{this.bookStatus}}</td>
-            <td><button type="button">Delete</button></td>
+            <td><button type="button" onclick="deleteBookCopy({{this.bookCopyID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 
 {{!-- Form to add a record to the table  --}}
-<form id="add-bookCopies-form-ajax">
+<form id="add-book-copy-form-ajax">
     <fieldset>
-        <legend>Add Book Copies</legend>
-            <label for="input-bookCopies-title">Book Title: </label>
-            <input type="text" name="input-bookCopies-title" id="input-bookCopies-title">
-            <input type="submit">
+        <legend>
+            <h3>Add Book Copy</h3>
+        </legend>
+        <div id="dropdown-list-container">
+            <p class="dropdown-list">
+                <label for="book-title"> Book Title: </label>
+                <select name="book-title" id="dropdown-book-title-ajax">
+                    {{#each dropdown}}
+                    <option value="{{this.bookID}}">{{this.title}}</option>
+                    {{/each}}
+                </select>
+            </p>
+        </div>
+        <input class="btn" type="submit" id="add-book-copy-form-ajax-submit" value="Submit">
     </fieldset>
 </form>
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_bookCopies.js"></script>
+<script src="./js/delete_bookCopies.js"></script>

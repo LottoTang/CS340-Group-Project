@@ -2,15 +2,15 @@
 -- The queries are separated by page
 
 -- BOOKS page
--- display all Books of the library
-SELECT Books.title AS Title FROM Books ORDER BY Books.title;
+-- display all Books of the library and the quantity
+SELECT Books.bookID, Books.title, COUNT(BookCopies.bookID) AS Total FROM Books INNER JOIN BookCopies ON Books.bookID = BookCopies.bookID GROUP BY Books.title ORDER BY Books.title;
 
 -- display the author(s) for any given book when we click on the book
 SELECT Books.title AS Title, CONCAT(Authors.firstName, ' ', Authors.lastName) AS Author FROM Books INNER JOIN
 BookAuthors ON Books.bookID = BookAuthors.bookID INNER JOIN
 Authors ON BookAuthors.authorID = Authors.authorID
 WHERE Books.bookID = :bookID_input
-ORDER BY Authors.lastName
+ORDER BY Authors.firstName, Authors.lastName;
 
 -- get the dropdown of Authors for adding new books
 SELECT CONCAT(Authors.lastName, Authors.firstName) AS Author 
@@ -26,7 +26,7 @@ INSERT INTO BookCopies (BookCopies.bookID) VALUES ( (SELECT Books.bookID FROM Bo
 
 -- edit a book
 -- for better user experience -> show all the book id and the title for choosing as topdown list
-SELECT Books.bookID, Books.title FROM Books ORDER BY Books.title;
+SELECT Books.title FROM Books ORDER BY Books.title;
 
 -- after choosing from the topdown list, the value bookID is passed to here for update
 UPDATE Books SET Books.bookTitle = :bookTitleInput WHERE Books.bookID = :update_Books.bookID;
@@ -43,6 +43,9 @@ ORDER BY Authors.firstName, Authors.lastName;
 INSERT INTO Authors (Authors.firstName, Authors.lastName) VALUES (:firstNameInput, :lastNameInput);
 
 -- edit an author
+-- for better user experience -> show all the book id and the title for choosing as topdown list
+SELECT CONCAT(Authors.firstName, Authors.lastName) FROM Authors ORDER BY Authors.firstName, Authors.lastName;
+
 UPDATE Authors SET Authors.firstName = :firstNameInput, Authors.lastName = :lastNameInput WHERE authorID = :update_Authors_authorID;
 
 -- delete an author
@@ -64,13 +67,13 @@ DELETE FROM Members WHERE memberID = :delete_member_memberID
 
 -- BOOK COPIES page
 -- display all book copies
-SELECT BookCopies.bookCopyID AS "Book Copy ID", BookCopies.bookID AS "Book ID", Books.title AS "Book Title", BookCopies.bookStatus AS "Book Status" FROM BookCopies
+SELECT BookCopies.bookCopyID AS "Book Copy ID", Books.title AS "Book Title", BookCopies.bookStatus AS "Book Status" FROM BookCopies
 INNER JOIN Books ON BookCopies.bookID = Books.bookID
-ORDER BY BookCopies.bookID
+ORDER BY Books.title;
 
 -- add a book copy
 -- for better user experience -> show all the book id and the title for choosing as topdown list
-SELECT Books.bookID, Books.title FROM Books ORDER BY Books.bookID
+SELECT Books.title FROM Books ORDER BY Books.bookID
 
 -- after choosing from the topdown list, the value bookID is passed to here for insert
 -- Explanation: the 1st registration is in Books Page --> if we want extra copies --> we can directly go to Book Copies to choose from dropdown list

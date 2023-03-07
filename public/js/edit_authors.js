@@ -20,14 +20,14 @@ updateAuthorForm.addEventListener("submit", function (e) {
 
     // Get form fields we need to get data from
     const inputAuthorID = document.getElementById("dropdown-authors-ajax")
-    const inputAuthorFirstName = document.getElementById("edit-author-firstName");
-    const inputAuthorLastName = document.getElementById("edit-author-lastName");
+    var inputAuthorFirstName = document.getElementById("edit-author-firstName");
+    var inputAuthorLastName = document.getElementById("edit-author-lastName");
 
 
     // Get the values from the form fields
     const authorIDValue = inputAuthorID.value;
-    const authorFirstNameValue = inputAuthorFirstName.value;
-    const authorLastNameValue = inputAuthorLastName.value;
+    var authorFirstNameValue = inputAuthorFirstName.value;
+    var authorLastNameValue = inputAuthorLastName.value;
 
     const goEdit = confirm(`Are you sure you want to change to ${authorFirstNameValue} ${authorLastNameValue}?`)
 
@@ -47,49 +47,48 @@ updateAuthorForm.addEventListener("submit", function (e) {
 
         // Tell our AJAX request how to resolve
         xhttp.onreadystatechange = () => {
-            if (xhttp.readyState == 2 && xhttp.status == 200) {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
 
                 // Add the new data to the table
                 updateRow(xhttp.response, authorIDValue);
-
+                inputAuthorFirstName = '';
+                inputAuthorLastName= '';
             }
-            else if (xhttp.readyState == 2 && xhttp.status != 200) {
+            else if (xhttp.readyState == 4 && xhttp.status != 200) {
                 console.log("There was an error with the input.")
             }
         }
-
         // Send the request and wait for the response
         xhttp.send(JSON.stringify(data));
-
-        function updateRow(data, authorID) {
-
-            const parsedData = JSON.parse(data);
-            
-            const table = document.getElementById("author-table");
-
-            for (var i = 0, row; row = table.rows[i]; i++) {
-                //iterate through rows
-                //rows would be accessed using the "row" variable assigned in the for loop
-                if (table.rows[i].getAttribute("data-value") == authorID) {
-
-                    // Get the location of the row where we found the matching authorID
-                    const updateRowIndex = table.getElementsByTagName("tr")[i];
-
-                    // Get td of firstName
-                    const td1 = updateRowIndex.getElementsByTagName("td")[1];
-
-                    // Reassign firstName to our value we updated to
-                    td1.innerHTML = parsedData[0].firstName; 
-
-                    // Get td of lastName
-                    const td2 = updateRowIndex.getElementsByTagName("td")[2];
-
-                    // Reassign lastName to our value we updated to
-                    td2.innerHTML = parsedData[0].lastName; 
-                }
-            }
-        }
-        window.location.reload();
-        window.alert('Update Successful');
     }
+    window.alert('Update successful.');
 })
+
+function updateRow(data, authorID) {
+
+    const parsedData = JSON.parse(data);
+    const table = document.getElementById("author-table");
+    console.log(parsedData);
+
+    for (var i = 0, row; row = table.rows[i]; i++) {
+        //iterate through rows
+        //rows would be accessed using the "row" variable assigned in the for loop
+        if (table.rows[i].getAttribute("data-value") == authorID) {
+
+            // Get the location of the row where we found the matching authorID
+            const updateRowIndex = table.getElementsByTagName("tr")[i];
+
+            // Get td of firstName
+            const td1 = updateRowIndex.getElementsByTagName("td")[1];
+
+            // Reassign firstName to our value we updated to
+            td1.innerHTML = parsedData[0].firstName; 
+
+            // Get td of lastName
+            const td2 = updateRowIndex.getElementsByTagName("td")[2];
+
+            // Reassign lastName to our value we updated to
+            td2.innerHTML = parsedData[0].lastName; 
+        }
+    }
+};

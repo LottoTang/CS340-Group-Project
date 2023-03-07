@@ -40,23 +40,13 @@ app.get('/', function(req, res)
     res.render('index');                                        // an object where 'data' is equal to the 'rows' we                                                 
 });                                                             // received back from the query                                            
 
-app.get('/bookCopies', function(req, res)
-{  
-    let query1 = "SELECT * FROM BookCopies ORDER BY BookCopies.bookID;"                   
-
-    db.pool.query(query1, function(error, rows, fields){    
-
-        res.render('bookCopies', {data: rows});                  
-    })                                                      
-}); 
 
 /*
     RETRIEVE MEMBERS
 */
-
 app.get('/members', function(req, res)
 {  
-    let query1 = "SELECT * FROM Members ORDER BY memberID;"                   
+    const query1 = "SELECT * FROM Members ORDER BY memberID;"                   
 
     db.pool.query(query1, function(error, rows, fields){    
 
@@ -68,11 +58,9 @@ app.get('/members', function(req, res)
     RETRIEVE BOOKS
 */
 app.get('/books', function(req, res)
-{  
-    const query1 = "SELECT * FROM Books ORDER BY Books.title"; 
-
+{     
+    const query1 = "SELECT Books.bookID, Books.title, COUNT(BookCopies.bookID) AS Total FROM Books INNER JOIN BookCopies ON Books.bookID = BookCopies.bookID GROUP BY Books.title ORDER BY Books.title;"; 
     const query2 = "SELECT * FROM Authors ORDER BY Authors.firstName, Authors.lastName;";
-
     db.pool.query(query1, function(error, rows, fields) {    
 
         // save the books
@@ -83,18 +71,17 @@ app.get('/books', function(req, res)
 
             // save the authors
             const authors = rows;
-            return res.render('books', {data: books, authors: authors});
-        })                
-    })                                                      
-}); 
+            res.render('books', {data: books, authors: authors});                  
+        })                                                      
+    })
+});
 
 /*
     ADD BOOKS
 */
-
 app.post('/add-book-ajax', function(req, res)
 {
-    let data = req.body;
+    const data = req.body;
 
     query1 = `INSERT INTO Books (title) VALUES ('${data.title}')`;
 
@@ -123,36 +110,43 @@ app.post('/add-book-ajax', function(req, res)
 /*
     UPDATE BOOKS
 */
-
 app.put('/put-book-ajax/', function(req, res){
+    
     const data = req.body;
-  
     const bookID = parseInt(data.bookID);
     const title = data.title;
   
     const queryUpdateBook = `UPDATE Books SET title = ? WHERE bookID = ?`;
+    const allBooks = `SELECT * FROM Books WHERE bookID = ?;`
   
         // Run the 1st query
         db.pool.query(queryUpdateBook, [title, bookID], function(error, rows, fields){
         if (error) {
-  
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
         }
         else {
-            res.send(rows);
-        } })
+            db.pool.query(allBooks, [bookID], function(error, rows, fields){
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+            } 
+            else {
+                res.send(rows);
+            }})
+        }})
 });
 
 /*
     DELETE BOOKS
 */
-
 app.delete('/delete-book-ajax/', function(req, res){
-    let data = req.body;
-    let bookID = parseInt(data.bookID);
-    let delete_Book = `DELETE FROM Books WHERE bookID = ?`;
+    const data = req.body;
+    const bookID = parseInt(data.bookID);
+    const delete_Book = `DELETE FROM Books WHERE bookID = ?`;
 
         // Run the 1st query
         db.pool.query(delete_Book, [bookID], function(error, rows, fields){
@@ -171,7 +165,7 @@ app.delete('/delete-book-ajax/', function(req, res){
 */
 app.get('/authors', function(req, res)
 {  
-    let query = "SELECT * FROM Authors ORDER BY Authors.firstName, Authors.lastName;";                    
+    const query = "SELECT * FROM Authors ORDER BY Authors.firstName, Authors.lastName;";                    
 
     db.pool.query(query, function(error, rows, fields){    
 
@@ -182,11 +176,10 @@ app.get('/authors', function(req, res)
 /*
     ADD MEMBERS
 */
-
 app.post('/add-member-ajax', function(req, res) 
 {
     // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
+    const data = req.body;
 
 
     // Create the query and run it on the database
@@ -227,11 +220,10 @@ app.post('/add-member-ajax', function(req, res)
 /*
     DELETE MEMBER
 */
-
 app.delete('/delete-member-ajax/', function(req, res, next){
-    let data = req.body;
-    let memberID = parseInt(data.id);
-    let deleteMemberQuery = `DELETE FROM Members WHERE memberID = ?`;
+    const data = req.body;
+    const memberID = parseInt(data.id);
+    const deleteMemberQuery = `DELETE FROM Members WHERE memberID = ?`;
   
   
           // Run the 1st query
@@ -266,10 +258,8 @@ app.delete('/delete-member-ajax/', function(req, res, next){
   });
 
 /*
-    ADD AUTHORS
     ADD AUTHORS (For Books Page)
 */
-
 app.post('/add-author-multiple-ajax', function(req, res, next)
 {
     const data = req.body;
@@ -316,7 +306,6 @@ app.post('/add-author-multiple-ajax', function(req, res, next)
 /*
     ADD AUTHORS (For Author Page)
 */
-
 app.post('/add-author-ajax', function(req, res, next)
 {
     const data = req.body;
@@ -348,37 +337,42 @@ app.post('/add-author-ajax', function(req, res, next)
 /*
     UPDATE AUTHORS
 */
-
-app.put('/put-author-ajax/', function(req, res){
+app.put('/put-author-ajax/', function(req, res) {
     const data = req.body;
   
-    const authodID = parseInt(data.authorID);
+    const authorID = parseInt(data.authorID);
     const authorFirstName = data.firstName;
     const authorLastName = data.lastName;
   
     const queryUpdateAuthor = `UPDATE Authors SET firstName = ?, lastName = ? WHERE authorID = ?`;
-  
-        // Run the 1st query
-        db.pool.query(queryUpdateAuthor, [authorFirstName, authorLastName, authodID], function(error, rows, fields){
+    const allAuthors = `SELECT * FROM Authors WHERE authorID = ?`;
+
+    // Run the 1st query
+    db.pool.query(queryUpdateAuthor, [authorFirstName, authorLastName, authorID], function(error, rows, fields) {
+    if (error) {
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+    }
+    else {
+        db.pool.query(allAuthors, [authorID], function(error, rows, fields) {
         if (error) {
-  
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
-        }
-        else {
+        } else {
             res.send(rows);
-        } })
+        }})
+    }})
 });
 
 /*
     DELETE AUTHORS
 */
-
 app.delete('/delete-author-ajax/', function(req, res){
-    let data = req.body;
-    let authorID = parseInt(data.authorID);
-    let delete_Author = `DELETE FROM Authors WHERE authorID = ?`;
+    const data = req.body;
+    const authorID = parseInt(data.authorID);
+    const delete_Author = `DELETE FROM Authors WHERE authorID = ?`;
 
         // Run the 1st query
         db.pool.query(delete_Author, [authorID], function(error, rows, fields){
@@ -393,14 +387,33 @@ app.delete('/delete-author-ajax/', function(req, res){
 });
 
 /*
-    ADD BOOK COPY
+    RETRIEVE BOOKCOPIES
 */
+app.get('/bookCopies', function(req, res)
+{  
+    const query1 = "SELECT BookCopies.bookCopyID, BookCopies.bookStatus, BookCopies.bookID, Books.title FROM BookCopies INNER JOIN Books ON BookCopies.bookID = Books.bookID ORDER BY Books.title, BookCopies.bookCopyID;";                 
+    const query2 = "SELECT BookCopies.bookCopyID, BookCopies.bookStatus, BookCopies.bookID, Books.title FROM BookCopies INNER JOIN Books ON BookCopies.bookID = Books.bookID GROUP BY Books.title;";           
 
-app.post('/add-bookCopies-ajax', function(req, res)
+    db.pool.query(query1, function(error, rows, fields){
+        
+        const allBooks = rows;
+        db.pool.query(query2, (error, rows, fields) => {
+            const groupBooks = rows;
+            res.render('bookCopies', {data: allBooks, dropdown: groupBooks});   
+        })               
+    })                                                      
+}); 
+
+
+/*
+    ADD BOOK COPIES (BOOK COPIES PAGE)
+*/
+app.post('/add-book-copy-ajax', function(req, res)
 {
-    let data = req.body;
+    const data = req.body;
+    const bookID = parseInt(data.bookID);
 
-    query1 = `INSERT INTO BookCopies (bookID) VALUES ((SELECT Books.bookID FROM Books WHERE Books.title = '${data.title}'))`;
+    query1 = `INSERT INTO BookCopies (bookID) VALUES ( ${bookID} )`;
 
     db.pool.query(query1, function(error, rows, fields) {
         if (error) {
@@ -409,7 +422,7 @@ app.post('/add-bookCopies-ajax', function(req, res)
         }
         else
         {
-            query2 = `SELECT * FROM BookCopies ORDER BY BookCopies.bookID;`;
+            query2 = "SELECT BookCopies.bookCopyID, BookCopies.bookStatus, Books.title, Books.bookID FROM BookCopies INNER JOIN Books ON BookCopies.bookID = Books.bookID ORDER BY Books.title, BookCopies.bookCopyID;";
             db.pool.query(query2, function(error, rows, fields){
                 if (error) {
                     console.log(error);
@@ -420,6 +433,126 @@ app.post('/add-bookCopies-ajax', function(req, res)
                     res.send(rows);
                 }
             })
+        }
+    })
+});
+
+/*
+    ADD BOOK COPIES (BOOK Page)
+*/
+app.post('/add-book-copy-using-title', function(req, res)
+{
+    const data = req.body;
+    const bookTitle = data.title;
+
+    query1 = `INSERT INTO BookCopies (bookID) VALUES ( (SELECT Books.bookID FROM Books WHERE Books.title = ?) );`;
+
+    db.pool.query(query1, [bookTitle], function(error, rows, fields) {
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            query2 = "SELECT BookCopies.bookCopyID, BookCopies.bookStatus, Books.title FROM BookCopies INNER JOIN Books ON BookCopies.bookID = Books.bookID ORDER BY Books.title, BookCopies.bookCopyID;";
+            db.pool.query(query2, function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+/*
+    DELETE BOOK COPIES
+*/
+app.delete('/delete-book-copy-ajax', function(req, res){
+    const data = req.body;
+    const bookCopyID = parseInt(data.bookCopyID);
+    const delete_Author = `DELETE FROM BookCopies WHERE bookCopyID = ?`;
+
+        // Run the 1st query
+        db.pool.query(delete_Author, [bookCopyID], function(error, rows, fields){
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.sendStatus(204);
+        }})
+});
+
+/*
+    RETRIEVE BOOKAUTHORS (FOR BOOKS Page)
+*/
+app.put('/book-authors', function(req, res)
+{
+    const data = req.body;
+    const bookID = parseInt(data.bookID);
+    const query1 = "SELECT Books.title AS Title, CONCAT(Authors.firstName, ' ', Authors.lastName) AS FullName FROM Books INNER JOIN BookAuthors ON Books.bookID = BookAuthors.bookID INNER JOIN Authors ON BookAuthors.authorID = Authors.authorID WHERE Books.bookID = ? ORDER BY Authors.firstName, Authors.lastName;"
+    db.pool.query(query1, [bookID], function(error, rows, fields) {    
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else
+        {
+            res.send(rows)
+        }                
+    })                                                      
+});
+
+/*
+    ADD BOOKAUTHORS
+*/
+app.post('/add-book-authors', function(req, res){
+    const data = req.body;
+    const title = data.title;
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const authorIDTotal = data.authorID;
+
+    var nameString = []
+    var query = "INSERT INTO BookAuthors (authorID, bookID) VALUES ";
+
+    for (var i = 0; i < firstName.length; i++) {
+        nameString[i] = "( (SELECT Authors.authorID FROM Authors WHERE Authors.firstName = '";
+        nameString[i] += firstName[i] + "' AND Authors.lastName = '" + lastName[i] + "' ), " + `( SELECT Books.bookID FROM Books WHERE Books.title = '${title}' ))`;
+        if (i < firstName.length - 1) {
+            nameString[i] += ", ";
+        }
+        query += nameString[i];
+    }
+
+    if (authorIDTotal.length >= 1) {
+        query += ", ";
+    }
+
+    var dropDownString = []
+    for (var j = 0; j < authorIDTotal.length; j++) {
+        dropDownString[j] = "(" + authorIDTotal[j] + `, ( SELECT Books.bookID FROM Books WHERE Books.title = '${title}'))`;
+        if (j < authorIDTotal.length - 1) {
+            dropDownString[j] += ", ";
+        }
+        query += dropDownString[j];
+    }  
+    query += ";";
+
+    db.pool.query(query, function(error, rows, fields) {
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.sendStatus(200);
         }
     })
 });

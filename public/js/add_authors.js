@@ -31,56 +31,18 @@ addAuthorSubmit.addEventListener("click", function (e) {
 
         // Tell our AJAX request how to resolve
         xhttp.onreadystatechange = () => {
-            if (xhttp.readyState == 2 && xhttp.status == 200) {
-
-                // Add the new data to the table
-                addRowToTable(xhttp.response);
-
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
                 // Clear the input fields for another transaction
                 inputAuthorFirstName.value = '';
                 inputAuthorLastName.value = '';
             }
-            else if (xhttp.readyState == 2 && xhttp.status != 200) {
+            else if (xhttp.readyState == 4 && xhttp.status != 200) {
                 console.log("There was an error with the input.")
             }
         }
 
         // Send the request and wait for the response
-        xhttp.send(JSON.stringify(data));
-
-        // Creates a single row from an Object representing a single record from Books
-        addRowToTable = (data) => {
-
-            // Get a reference to the current table on the page and clear it out.
-            const currentTable = document.getElementById("author-table");
-
-            // Get the location where we should insert the new row (end of table)
-            const newRowIndex = currentTable.rows.length;
-
-            // Get a reference to the new row from the database query (last object)
-            const parsedData = JSON.parse(data);
-            const newRow = parsedData[parsedData.length - 1]
-
-            // Create a row and 2 cells
-            const row = document.createElement("TR");
-            const authorID = document.createElement("TD");
-            const authorFirstNameCell = document.createElement("TD");
-            const authorLastNameCell = document.createElement("TD");
-
-            // Fill the cells with correct data
-            authorID.innerText = newRow.id;
-            authorFirstNameCell.innerText = newRow.firstName;
-            authorLastNameCell.innerText = newRow.lastName;
-
-            // Add the cells to the row 
-            row.appendChild(authorID);
-            row.appendChild(authorFirstNameCell);
-            row.appendChild(authorLastNameCell);
-            
-            // Add the row to the table
-            currentTable.appendChild(row);
-        }   
-        window.location.reload();
         window.alert('Insert Successful');  
+        xhttp.send(JSON.stringify(data));
     }
 })

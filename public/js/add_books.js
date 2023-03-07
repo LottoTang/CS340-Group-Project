@@ -29,6 +29,8 @@ function registerAuthor() {
     registerAuthorContainer.appendChild(newPara);
 }
 
+// action after clicking the "Submit"
+
 const addBookSubmit = document.getElementById('add-book-form-ajax-submit');
 
 // Modify the objects we need
@@ -44,7 +46,6 @@ addBookSubmit.addEventListener("click", function (e) {
     // Get the values from the form fields
     const bookTitleValue = inputBookTitle.value;
 
-    
     // Input from dropdown list (for bookCopies)
     const inputAuthorValue = [];
     if (inputAuthor.length > 1) { 
@@ -60,6 +61,9 @@ addBookSubmit.addEventListener("click", function (e) {
     const newAuthorLastName = document.getElementsByClassName('input-author-lastName');
 
     var authorNotFound = false;
+    var addBookDone = false;
+    var addAuthorDone = false;
+    var addBookCopyDone = false;
     const inputAuthorFirstName = [];
     const inputAuthorLastName = []; 
 
@@ -84,58 +88,42 @@ addBookSubmit.addEventListener("click", function (e) {
             firstName: inputAuthorFirstName,
             lastName: inputAuthorLastName
         }
+
+        const bookCopy = {
+            title: bookTitleValue,
+        }
+
+        const bookAuthors = {
+            title: bookTitleValue,
+            firstName:inputAuthorFirstName,
+            lastName: inputAuthorLastName,
+            authorID: inputAuthorValue
+        }
             
         // Setup our AJAX request
+
         const xhttpBook = new XMLHttpRequest();
         xhttpBook.open("POST", "/add-book-ajax", true);
         xhttpBook.setRequestHeader("Content-type", "application/json");
 
         // Tell our AJAX request how to resolve
         xhttpBook.onreadystatechange = () => {
-            if (xhttp.readyState == 1 && xhttp.status == 200) {
+            if (xhttpBook.readyState == 4 && xhttpBook.status == 200) {
 
                 // Add the new data to the table
-                addRowToTableBook(xhttpBook.response);
+                // addRowToTableBook(xhttpBook.response);
 
                 // Clear the input fields for another transaction
                 inputBookTitle.value = '';
             }
-            else if (xhttpBook.readyState == 1 && xhttpBook.status != 200) {
+            else if (xhttpBook.readyState == 4 && xhttpBook.status != 200) {
                 console.log("There was an error with the input.")
             }
         }
 
         // Send the request and wait for the response
-        xhttpBook.send(JSON.stringify(data));
-
-        // Creates a single row from an Object representing a single record from Books
-        addRowToTableBook = (data) => {
-
-            // Get a reference to the current table on the page and clear it out.
-            const currentTable = document.getElementById("book-table");
-
-            // Get the location where we should insert the new row (end of table)
-            const newRowIndex = currentTable.rows.length;
-
-            // Get a reference to the new row from the database query (last object)
-            const parsedData = JSON.parse(data);
-            const newRow = parsedData[parsedData.length - 1]
-
-            // Create a row and 2 cells
-            const row = document.createElement("TR");
-            const itemNumberCell = document.createElement("TD");
-            const bookTitleCell = document.createElement("TD");
-
-            // Fill the cells with correct data
-            bookTitle.innerText = newRow.title;
-
-            // Add the cells to the row 
-            row.appendChild(itemNumberCell);
-            row.appendChild(bookTitleCell);
-            
-            // Add the row to the table
-            currentTable.appendChild(row);
-        }   
+        xhttpBook.send(JSON.stringify(data)); 
+        addBookDone = true;
 
         if(authorNotFound) {
 
@@ -146,16 +134,16 @@ addBookSubmit.addEventListener("click", function (e) {
 
             // Tell our AJAX request how to resolve
             xhttpAuthor.onreadystatechange = () => {
-                if (xhttpAuthor.readyState == 2 && xhttpAuthor.status == 200) {
+                if (xhttpAuthor.readyState == 4 && xhttpAuthor.status == 204) {
 
                     // Add the new data to the table
-                    addRowToTableAuthor(xhttpAuthor.response);
+                    // addRowToTableAuthor(xhttpAuthor.response);
 
                     // Clear the input fields for another transaction
                     inputAuthorFirstName.value = '';
                     inputAuthorLastName.value = '';
                 }
-                else if (xhttpAuthor.readyState == 2 && xhttpAuthor.status != 200) {
+                else if (xhttpAuthor.readyState == 4 && xhttpAuthor.status != 204) {
                     console.log("There was an error with the input.")
                 }
             }
@@ -163,6 +151,53 @@ addBookSubmit.addEventListener("click", function (e) {
             // Send the request and wait for the response
             xhttpAuthor.send(JSON.stringify(authors));
         }
+        
+        // BOOKCOPIES
+        // Setup our AJAX request
+        if (addBookDone) {
+            const xhttpBookCopies = new XMLHttpRequest();
+            xhttpBookCopies.open("POST", "/add-book-copy-using-title", true);
+            xhttpBookCopies.setRequestHeader("Content-type", "application/json");
+
+            // Tell our AJAX request how to resolve
+            xhttpBookCopies.onreadystatechange = () => {
+                if (xhttpBookCopies.readyState == 4 && xhttpBookCopies.status == 204) {
+
+                    // Add the new data to the table
+                    console.log("Send book copy successful.")
+                    
+                }
+                else if (xhttpBookCopies.readyState == 4 && xhttpBookCopies.status != 204) {
+                    console.log("There was an error with the input.")
+                }
+            }
+            // Send the request and wait for the response
+            xhttpBookCopies.send(JSON.stringify(bookCopy));
+            addBookCopyDone = true;
+
+            //BOOKAUTHORS
+            // Setup our AJAX request
+            if (addBookDone && addBookCopyDone) {
+                const xhttpBookAuthors = new XMLHttpRequest();
+                xhttpBookAuthors.open("POST", "/add-book-authors", true);
+                xhttpBookAuthors.setRequestHeader("Content-type", "application/json");
+
+                // Tell our AJAX request how to resolve
+                xhttpBookAuthors.onreadystatechange = () => {
+                    if (xhttpBookAuthors.readyState == 4 && xhttpBookAuthors.status == 204) {
+
+                        // Add the new data to the table
+                        console.log("Send book author successful.")
+                    }
+                    else if (xhttpBookAuthors.readyState == 4 && xhttpBookAuthors.status != 204) {
+                        console.log("There was an error with the input.")
+                    }
+                }
+                // Send the request and wait for the response
+                xhttpBookAuthors.send(JSON.stringify(bookAuthors));
+            }
+        }
+
         window.location.reload();  
         window.alert('Insert Successful');
     }

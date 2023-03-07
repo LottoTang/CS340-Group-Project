@@ -43,13 +43,14 @@ updateBookForm.addEventListener("submit", function (e) {
 
         // Tell our AJAX request how to resolve
         xhttp.onreadystatechange = () => {
-            if (xhttp.readyState == 1 && xhttp.status == 200) {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
 
                 // Add the new data to the table
                 updateRow(xhttp.response, bookIDValue);
+                window.alert('Update Successful');
 
             }
-            else if (xhttp.readyState == 1 && xhttp.status != 200) {
+            else if (xhttp.readyState == 4 && xhttp.status != 200) {
                 console.log("There was an error with the input.")
             }
         }
@@ -74,12 +75,16 @@ updateBookForm.addEventListener("submit", function (e) {
                     // Get td of title
                     const td1 = updateRowIndex.getElementsByTagName("td")[1];
 
-                    // Reassign title to our value we updated to
-                    td1.innerHTML = parsedData[0].title; 
+                    const updateAnchor = document.createElement("a");
+                    updateAnchor.setAttribute("href", "#");
+                    updateAnchor.onclick = function(){
+                        showBookAuthors(parsedData[0].bookID);
+                    };
+                    updateAnchor.innerHTML = parsedData[0].title; 
+                    td1.innerHTML = '';
+                    td1.appendChild(updateAnchor);
                 }
             }
         }
-        window.location.reload();
-        window.alert('Update Successful');
     }
 })

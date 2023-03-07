@@ -1,6 +1,6 @@
 <div class="page-sub-heading">
     <h2>Book Collection</h2>
-    <p>Click the title of a book to view the information of the book (NOT YET READY - to tie with BookAuthors)</p>
+    <p>Click the title of a book to view the information of the book</p>
 </div>
 
 {{!-- Create a table --}}
@@ -14,6 +14,7 @@
         <tr>
             <th>Item</th>
             <th>Title</th>
+            <th>Quantity</th>
             <th></th>
             <th></th>
         </tr>
@@ -26,13 +27,29 @@
         {{#each data}}
         <tr data-value="{{this.bookID}}">
             <td>{{counter @index}}</td>
-            <td>{{this.title}}</td>
+            <td><a href="#" onclick="showBookAuthors({{this.bookID}})">{{this.title}}</a></td>
+            <td>{{this.Total}}</td>
             <td><button type="button" onclick="showEditBook({{this.bookID}})">Edit</button></td>
             <td><button type="button" onclick="deleteBook({{this.bookID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+
+{{!-- Table to show bookAuthors --}}
+<div id="show-book-authors" style="display: none">
+    <h4>Book Details</h4>
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Author(s)</th>
+            </tr>
+        </thead>
+        <tbody id="book-authors-table">
+        </tbody>
+    </table>
+</div>
 
 {{!-- Form to add a record to the table  --}}
 <form id="add-book-form-ajax">
@@ -63,35 +80,35 @@
         <input class="btn" type="submit" id="add-book-form-ajax-submit" value="Submit">
     </fieldset>
 </form>
-</div>
 
 {{!-- Form to edit a record --}}
 <div id="edit-book" style="display: none">
-<form id="edit-book-form-ajax">
-    <fieldset>
-        <legend>
-            <h3>Edit Book</h3>
-        </legend>
-        <p>
-            <label for="authors"> Author: </label>
-            <select name="authors" id="dropdown-books-ajax">
-                {{#each data}}
-                <option value="{{this.bookID}}"> {{this.title}}</option>
-                {{/each}}
-            </select>
-        </p>
-        <p>
-            <label for="edit-book-title">Updated Book Title: </label>
-            <input type="text" name="edit-book-title" id="edit-book-title">
-        </p>
-        <input class="btn" type="submit" id="edit-book-button" value="Save Changes">
-    </fieldset>
-</form>
+    <form id="edit-book-form-ajax">
+        <fieldset>
+            <legend>
+                <h3>Edit Book</h3>
+            </legend>
+            <p>
+                <label for="authors"> Book TItle: </label>
+                <select name="authors" id="dropdown-books-ajax">
+                    {{#each data}}
+                    <option value="{{this.bookID}}"> {{this.title}}</option>
+                    {{/each}}
+                </select>
+            </p>
+            <p>
+                <label for="edit-book-title">Updated Book Title: </label>
+                <input type="text" name="edit-book-title" id="edit-book-title">
+            </p>
+            <input class="btn" type="submit" id="edit-book-button" value="Save Changes">
+        </fieldset>
+    </form>
+</div>
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_books.js"></script>
 <script src="./js/delete_books.js"></script>
 <script src="./js/edit_books.js"></script>
-
+<script src="./js/show_bookAuthors.js"></script>
 
 
