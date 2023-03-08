@@ -21,7 +21,10 @@ function deleteMember(memberID) {
         }
     }
     // Send the request and wait for the response
+    window.alert('Delete Successful');  
     xhttp.send(JSON.stringify(data));
+    window.location.reload();
+
 }
 
   

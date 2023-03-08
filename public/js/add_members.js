@@ -55,7 +55,9 @@ addMemberForm.addEventListener("submit", function (e) {
     }
 
     // Send the request and wait for the response
+    
     xhttp.send(JSON.stringify(data));
+    window.location.reload();  
 
 })
 
@@ -82,6 +84,7 @@ addRowToTable = (data) => {
     let contactNumberCell = document.createElement("TD");
     let currentAddressCell = document.createElement("TD");
     let emailCell = document.createElement("TD");
+    
     let editCell = document.createElement("TD");
     let deleteCell = document.createElement("TD");
 
@@ -113,9 +116,23 @@ addRowToTable = (data) => {
     row.appendChild(editCell);
     row.appendChild(deleteCell);
     
-    // Add a row attribute so the deleteRow function can find a newly added row
+    // Add a custom row attribute so the deleteRow function can find a newly added row
     row.setAttribute('data-value', newRow.memberID);
 
     // Add the row to the table
     currentTable.appendChild(row);
+
+    // start of new area after adding update functionality
+
+    // find drop-down menu, create a new option, fill data in the option
+    // then append option to drop down menu so newly created rows via ajax
+    // will be found in it without needing a refresh
+
+    let selectMenu = document.getElementById("mySelect");
+    let option = document.createElement("option");
+    option.text = newRow.firstName + ' ' + newRow.lastName;
+    option.value = newRow.memberID;
+    selectMenu.add(option);
 }
+
+

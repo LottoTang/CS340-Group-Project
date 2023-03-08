@@ -12,13 +12,13 @@
     <table id="members-table" border="1" cellpadding="5">
         <thead>
             <tr>
-                {{#each data.[0]}}
-                <th>
-                    {{@key}}
-                </th>
-                {{/each}}
-                <th>Update</th>
-                <th>Delete</th>
+                <th>Member ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Update/Delete</th>
             </tr>
         </thead>
 
@@ -32,9 +32,7 @@
                 <td>{{this.currentAddress}}</td>
                 <td>{{this.email}}</td>
                 <td>
-                    <button value="1" onClick="showEditMember();">Edit</button>
-                </td>
-                <td>
+                    <button onClick="showUpdateMember({{this.memberID}});">Edit</button>
                     <button onclick="deleteMember({{this.memberID}})">Delete</button>
                 </td>
             </tr>
@@ -80,55 +78,44 @@
     </form>
 </div>
 
-<div id="edit" style="display:none;">
-    <form id="editMember">
+
+{{!-- Update a member --}}
+<div id="edit-member" style="display: none;">
+    <h2>Update a Member</h2>
+    <form id="update-member-form-ajax">
         <legend>
             <h4>Edit Member</h4>
         </legend>
         <fieldset class="fields">
-            <table border="1" cellpadding="5">
-                <tbody>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Contact Number</th>
-                        <th>Current Address</th>
-                        <th>Email</th>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>James Pressman</td>
-                        <td>641-583-0777</td>
-                        <td>3152 Custer Street, Bedford, PA</td>
-                        <td>iliana2013@fake.com</td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-            <label>First Name: </label>
-            <input type="text" name="fname" value="James">
-            <label>Last Name: </label>
-            <input type="text" name="lname" value="Pressman">
-            <br>
-            <br>
-            <label>Phone: </label>
-            <input type="tel" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="641-583-0777">
+            <label for="input-name">Member Name:</label>
+            <select name="input-name" id="mySelect">
+                <option value="test">Select a Person</option>
+                {{#each data}}
+                <option value="{{this.memberID}}">{{this.firstName}} {{this.lastName}}</option>
+                {{/each}}
+            </select>
+
+            <label for="input-contactNumber-update">Phone: </label>
+            <input type="tel" name="input-contactNumber-update" id="input-contactNumber-update" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
             <small>Format: 123-456-7890</small>
             <br>
             <br>
-            <label>Home address: </label>
-            <input type="text" name="address" value="3152 Custer Street, Bedford, PA">
+            <label for="input-currentAddress-update">Home address: </label>
+            <input type="text" name="input-currentAddress-update" id="input-currentAddress-update">
             <br>
             <br>
-            <label>Email address:</label>
-            <input type="email" name="email" value="iliana2013@fake.com">
+            <label for="input-email-update">Email address:</label>
+            <input type="email" name="input-email-update" id="input-email-update">
             <br>
             <br>
+            <input class="btn" type="submit">
         </fieldset>
-        <input class="btn" type="submit" id="editMember" onClick="confirmSave()" value="Save Changes">
     </form>
 </div>
+            
+
 
 {{!-- Embed JS to handle DOM manipulation and AJAX request --}}
 <script src="./js/add_members.js"></script>
 <script src="./js/delete_member.js"></script>
+<script src="./js/update_member.js"></script>

@@ -5,7 +5,7 @@
 */
 var express = require('express');                               // We are using the express library for the web server
 var app     = express();                                        // We need to instantiate an express object to interact with the server in our code
-PORT        = 9594;                                             // Set a port number at the top so it's easy to change in the future
+PORT        = 5124;                                             // Set a port number at the top so it's easy to change in the future
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -228,17 +228,15 @@ app.delete('/delete-member-ajax/', function(req, res, next){
   
           // Run the 1st query
           db.pool.query(deleteMemberQuery, [memberID], function(error, rows, fields){
-              if (error) {
+                if (error) {
   
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-              console.log(error);
-              res.sendStatus(400);
-              } 
-              else
-        {
-            // If there was no error, perform a SELECT * on Members
-            query2 = `SELECT * FROM Members ORDER BY memberID;`;
-            db.pool.query(query2, function(error, rows, fields){
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    // If there was no error, perform a SELECT * on Members
+                    query2 = `SELECT * FROM Members ORDER BY memberID;`;
+                    db.pool.query(query2, function(error, rows, fields){
 
                 // If there was an error on the second query, send a 400
                 if (error) {
@@ -250,12 +248,47 @@ app.delete('/delete-member-ajax/', function(req, res, next){
                 // If all went well, send the results of the query back.
                 else
                 {
+                    res.render('members', {data: rows});
                     res.send(rows);
                 }
             })
         }  
         })
   });
+
+/*
+    UPDATE MEMBER 
+*/
+app.put('/put-member-ajax/', function(req,res,next){
+    let data = req.body;
+
+    let contactNumber = data.contactNumber;
+    let currentAddress = data.currentAddress;
+    let email = data.email;
+    let memberID = parseInt(data.memberID);
+
+    let queryUpdateMember = `UPDATE Members SET contactNumber = ?, currentAddress = ?, email = ? WHERE Members.memberID = ?;`;
+    let allMembers = `SELECT contactNumber, currentAddress, email FROM Members WHERE Members.memberID = ?;`;
+
+        db.pool.query(queryUpdateMember, [contactNumber, currentAddress, email, memberID], function(error, rows, fields){
+            if (error){
+                console.log(error);
+                res.sendStatus(400);
+            }
+            else{
+                db.pool.query(allMembers, [memberID], function(error, rows, fields){
+                    if(error){
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    else {
+                        res.send(rows);
+                    }
+                })
+            }
+        })
+});
+
 
 /*
     ADD AUTHORS (For Books Page)
