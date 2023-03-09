@@ -26,7 +26,7 @@ CREATE TABLE BookAuthors (
     authorID INT NOT NULL,
     bookID INT NOT NULL,
     FOREIGN KEY (authorID) REFERENCES Authors (authorID),
-    FOREIGN KEY (bookID) REFERENCES Books (bookID) ON DELETE SET NULL
+    FOREIGN KEY (bookID) REFERENCES Books (bookID)
 );
 DESCRIBE BookAuthors;
 

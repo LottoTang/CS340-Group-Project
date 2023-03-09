@@ -1,0 +1,99 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+<div id="browse" style="display: block">
+    <div class="page-sub-heading">
+        <h2>
+            Outstanding Checkouts
+        </h2>
+    </div>
+
+
+    <table id="checkouts-table" border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>
+                    <button onclick="window.location.href='./newCheckout';">New Checkout</button>
+                </th>
+                <th>Checkout ID</th>
+                <th>Member ID</th>
+                <th>Member Name</th>
+                <th>Book Copy ID</th>
+                <th>Book Title</th>
+                <th>Start Time</th>
+                <th>Returned?</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each data}}
+            <tr>
+                <td>
+                    <button value="{{this.checkoutID}}" onClick="return_book({{this.checkoutID}});">Return Book</button>
+                </td>
+                <td>{{this.checkoutID}}</td>                
+                <td>{{this.memberID}}</td>
+                <td>{{this.firstName}} {{this.lastName}}</td>
+                <td>{{this.bookCopyID}}</td>
+                <td>{{this.title}}</td>
+                <td>{{this.startTime}}</td>
+                <td>{{this.isReturned}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <br>
+    <br>
+</div>
+
+<div>
+    <button onclick="toggleShowHiddenBooks()">Click to see past checkouts</button>
+</div>
+
+<div id="returnedBooksDiv" style="display: none">
+    <div class="page-sub-heading">
+        <h2>
+            Returned Checkouts
+        </h2>
+    </div>
+
+    <table id="returned-checkouts-table" border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>
+                    <button disabled onclick="window.location.href='./newCheckout';">New Checkout</button>
+                </th>
+                <th>Checkout ID</th>
+                <th>Member ID</th>
+                <th>Member Name</th>
+                <th>Book Copy ID</th>
+                <th>Book Title</th>
+                <th>Start Time</th>
+                <th>Returned?</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each data2}}
+            <tr>
+                <td>
+                    <button disabled>Return Book</button>
+                </td>
+                <td>{{this.checkoutID}}</td>                
+                <td>{{this.memberID}}</td>
+                <td>{{this.firstName}} {{this.lastName}}</td>
+                <td>{{this.bookCopyID}}</td>
+                <td>{{this.title}}</td>
+                <td>{{this.startTime}}</td>
+                <td>{{this.isReturned}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <br>
+    <br>
+</div>
+
+{{!-- Embed JS to handle DOM manipulation and AJAX request --}}
+<script src="./js/is_returned.js"></script>
+<script src="./js/return_book.js"></script>

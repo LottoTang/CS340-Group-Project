@@ -542,6 +542,7 @@ app.put('/book-authors', function(req, res)
     })                                                      
 });
 
+
 /*
     ADD BOOKAUTHORS
 */
@@ -589,6 +590,153 @@ app.post('/add-book-authors', function(req, res){
         }
     })
 });
+
+/*
+    GET CHECKOUTS
+*/
+app.get('/checkouts', function(req, res)
+{
+    let query1 = `SELECT checkoutID, startTime, isReturned, BookCopies.bookCopyID, Books.title, Members.memberID, Members.firstName, Members.lastName 
+        FROM Checkouts 
+        INNER JOIN BookCopies ON Checkouts.bookCopyID = BookCopies.bookCopyID 
+        INNER JOIN Books ON BookCopies.bookID = Books.bookID 
+        INNER JOIN Members ON Checkouts.memberID = Members.memberID
+        WHERE isReturned = 0
+        ORDER BY startTime DESC;`
+    let query2 = `SELECT checkoutID, startTime, isReturned, BookCopies.bookCopyID, Books.title, Members.memberID, Members.firstName, Members.lastName 
+        FROM Checkouts 
+        INNER JOIN BookCopies ON Checkouts.bookCopyID = BookCopies.bookCopyID 
+        INNER JOIN Books ON BookCopies.bookID = Books.bookID 
+        INNER JOIN Members ON Checkouts.memberID = Members.memberID
+        WHERE isReturned = 1
+        ORDER BY startTime DESC;`
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        const outBooks = rows;
+        db.pool.query(query2, function(error, rows, fields){
+            const returnedBooks = rows
+            res.render('checkouts', {data: outBooks, data2: returnedBooks});
+            })
+    
+        })
+    });
+
+
+/*
+    GET NEW CHECKOUT OPTIONS
+*/
+
+app.get('/newCheckout', function(req, res){
+    
+    const query1 = "SELECT bookCopyID, Books.title FROM BookCopies INNER JOIN BookAuthors ON BookCopies.bookID = BookAuthors.bookID INNER JOIN Books ON BookAuthors.bookID = Books.bookID WHERE BookCopies.bookStatus = 'AVAILABLE' ORDER BY bookCopyID;"
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        res.render('newCheckout', {data: rows});
+    })
+});
+
+
+/*
+    ADD NEW CHECKOUT (CHECK OUT BOOK)
+*/
+
+app.post('/add-checkout-ajax', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+    let bookCopyID = parseInt(data.bookCopyID);
+    let contactNumber = data.contactNumber;
+    console.log(data)
+
+    const query1 = `INSERT INTO Checkouts (startTime, isReturned, bookCopyID, memberID) 
+        VALUES ( (NOW()), 0, ${bookCopyID}, (SELECT memberID FROM Members WHERE contactNumber = "${contactNumber}"))`
+    
+
+
+    // Create the query and run it on the database
+    //query1 = `INSERT INTO Members (firstName, lastName, contactNumber, currentAddress, email) 
+      //  VALUES ('${data.firstName}', '${data.lastName}', '${data.contactNumber}', '${data.currentAddress}', '${data.email}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on Members
+            const query2 = `UPDATE BookCopies
+	            SET bookStatus = "CHECKED-OUT"
+	            WHERE bookCopyID = ${bookCopyID};`
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well:
+                else
+                {
+                    res.status(200);
+                }
+            })
+        }
+    })
+});
+
+/*
+    RETURN BOOK 
+*/
+app.put('/return-book-ajax', function(req,res,next){
+    let data = req.body;
+
+    let checkoutID = parseInt(data.checkoutID);
+
+    let returnBookQuery = `UPDATE Checkouts SET isReturned = 1 WHERE Checkouts.checkoutID = ${checkoutID};`;
+    let updateBookStatusQuery = `UPDATE BookCopies SET bookStatus = "AVAILABLE" WHERE bookCopyID = (
+            SELECT bookCopyID FROM Checkouts WHERE checkoutID = ${checkoutID});`
+    let allBooks = `SELECT checkoutID, startTime, isReturned, BookCopies.bookCopyID, Books.title, Members.memberID, Members.firstName, Members.lastName 
+        FROM Checkouts 
+        INNER JOIN BookCopies ON Checkouts.bookCopyID = BookCopies.bookCopyID 
+        INNER JOIN Books ON BookCopies.bookID = Books.bookID 
+        INNER JOIN Members ON Checkouts.memberID = Members.memberID
+        WHERE Checkouts.checkoutID = ${checkoutID};`
+
+        db.pool.query(returnBookQuery, function(error, rows, fields){
+            if (error){
+                console.log(error);
+                res.sendStatus(400);
+            }
+            else{
+                db.pool.query(updateBookStatusQuery, function(error, rows, fields){
+                    if(error){
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    else {
+                        db.pool.query(allBooks, function(error, rows, fields){
+                            if(error){
+                                console.log(error);
+                                res.sendStatus(400);
+                            }
+                            else {
+                            res.send(rows);
+                            }
+                    })
+            }})
+            }
+        })
+});
+
+
 
 /*
     LISTENER
