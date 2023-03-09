@@ -18,9 +18,9 @@ function return_book(checkoutID) {
     xhttp.setRequestHeader("Content-type", "application/json");
 
     
-    const goReturn = confirm(`Are you sure you want to return this book?`)
+   // const goReturn = confirm(`Are you sure you want to return this book?`)
 
-    if (goReturn){
+   // if (goReturn){
 
         // Tell our AJAX request how to resolve
         xhttp.onreadystatechange = () => {
@@ -37,7 +37,7 @@ function return_book(checkoutID) {
 
         // Send the request and wait for the response
         xhttp.send(JSON.stringify(data));
-    }};
+    };
 
 function updateRow(data, checkoutID){
 
@@ -46,20 +46,22 @@ function updateRow(data, checkoutID){
     let table = document.getElementById("checkouts-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
-    //iterate through rows
-    //rows would be accessed using the "row" variable assigned in the for loop
-    if (table.rows[i].getAttribute("data-value") == checkoutID) {
+        //iterate through rows
+        //rows would be accessed using the "row" variable assigned in the for loop
+        if (table.rows[i].getAttribute("data-value") == checkoutID) {
 
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
-            console.log(updateRowIndex)
 
             // Get td of all values
             let hiddenButton = updateRowIndex.getElementsByTagName("td")[0];
-            let newIfReturned = updateRowIndex.getElementsByTagName("td")[7];
+            console.log(updateRowIndex.getElementsByTagName("td")[0]);
 
-            newIfReturned.innerHTML = "1"
-            hiddenButton.disabled = true
+            let newIfReturned = updateRowIndex.getElementsByTagName("td")[7];
+            
+            hiddenButton.firstElementChild.setAttribute("disabled", "")
+        //    hiddenButton.appendChild(document.createElement("button"))
+            newIfReturned.innerHTML = "Yes"
             
     }
     }

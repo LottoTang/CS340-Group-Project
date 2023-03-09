@@ -2,6 +2,8 @@ function deleteMember(memberID) {
     let data = {
         id: memberID
     };
+
+    if (confirm(`Are you sure you want to delete member with MemberID #` + memberID + `?`) == true){
   
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -21,11 +23,9 @@ function deleteMember(memberID) {
         }
     }
     // Send the request and wait for the response
-    window.alert('Delete Successful');  
     xhttp.send(JSON.stringify(data));
-    window.location.reload();
 
-}
+}};
 
   
 function deleteRow(memberID){
@@ -36,4 +36,4 @@ function deleteRow(memberID){
             break;
         }
     }
-}
+};

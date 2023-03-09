@@ -35,14 +35,23 @@ updateMemberForm.addEventListener("submit", function (e) {
     let currentAddressValue = inputCurrentAddress.value;
     let emailValue = inputEmail.value;
 
-    const goEdit = confirm(`Are you sure you want to update information?`)
+    if (contactNumberValue == '') {
+        alert("please enter values for all fields")
+        return;
+    }
+    if (currentAddressValue == '') {
+        alert("please enter values for all fields")
+        return;
+    }
+    if (emailValue == '') {
+        alert("please enter values for all fields")
+        return;
+    }
+
+    const goEdit = confirm(`Are you sure you want to update information for member with Member ID #` + fullNameValue + `?`)
     // currently the database table for does not allow updating values to NULL
     // so we must abort if being passed NULL for homeworld
-
- //   if (isNaN(homeworldValue)) 
- //   {
- //       return;
- //   }
+    
     if (goEdit){
 
 

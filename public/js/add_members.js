@@ -57,7 +57,6 @@ addMemberForm.addEventListener("submit", function (e) {
     // Send the request and wait for the response
     
     xhttp.send(JSON.stringify(data));
-    window.location.reload();  
 
 })
 
@@ -84,9 +83,7 @@ addRowToTable = (data) => {
     let contactNumberCell = document.createElement("TD");
     let currentAddressCell = document.createElement("TD");
     let emailCell = document.createElement("TD");
-    
-    let editCell = document.createElement("TD");
-    let deleteCell = document.createElement("TD");
+    let editAndDeleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
     memberIDCell.innerText = newRow.memberID;
@@ -95,15 +92,21 @@ addRowToTable = (data) => {
     contactNumberCell.innerText = newRow.contactNumber;
     currentAddressCell.innerText = newRow.currentAddress;
     emailCell.innerText = newRow.email; 
-    
-    editCell = document.createElement("button"); 
-    editCell.innerHTML = "Edit";
 
-    deleteCell = document.createElement("button");
-    deleteCell.innerHTML = "Delete";
-    deleteCell.onclick = function(){
+    let editButton = document.createElement("button");
+    editButton.innerHTML = "Edit"
+    editButton.onclick = function() {
+        showUpdateMember(newRow.memberID);
+    };
+
+    let deleteButton = document.createElement("button");
+    deleteButton.innerHTML = "Delete"
+    deleteButton.onclick = function() {
         deleteMember(newRow.memberID);
     };
+
+    editAndDeleteCell.appendChild(editButton);
+    editAndDeleteCell.appendChild(deleteButton);
 
 
     // Add the cells to the row 
@@ -113,11 +116,11 @@ addRowToTable = (data) => {
     row.appendChild(contactNumberCell);
     row.appendChild(currentAddressCell);
     row.appendChild(emailCell);
-    row.appendChild(editCell);
-    row.appendChild(deleteCell);
+    row.appendChild(editAndDeleteCell);
     
     // Add a custom row attribute so the deleteRow function can find a newly added row
     row.setAttribute('data-value', newRow.memberID);
+    
 
     // Add the row to the table
     currentTable.appendChild(row);
@@ -134,5 +137,3 @@ addRowToTable = (data) => {
     option.value = newRow.memberID;
     selectMenu.add(option);
 }
-
-

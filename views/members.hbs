@@ -23,7 +23,7 @@
 
         <tbody>
             {{#each data}}
-            <tr>
+            <tr data-value="{{this.memberID}}">
                 <td>{{this.memberID}}</td>
                 <td>{{this.firstName}}</td>
                 <td>{{this.lastName}}</td>
@@ -31,7 +31,7 @@
                 <td>{{this.currentAddress}}</td>
                 <td>{{this.email}}</td>
                 <td>
-                    <button onClick="showUpdateMember({{this.memberID}});">Edit</button>
+                    <button onclick="showUpdateMember({{this.memberID}});">Edit</button>
                     <button onclick="deleteMember({{this.memberID}})">Delete</button>
                 </td>
             </tr>

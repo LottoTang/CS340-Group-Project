@@ -221,12 +221,11 @@ app.post('/add-member-ajax', function(req, res)
     DELETE MEMBER
 */
 app.delete('/delete-member-ajax/', function(req, res, next){
-    const data = req.body;
-    const memberID = parseInt(data.id);
-    const deleteMemberQuery = `DELETE FROM Members WHERE memberID = ?`;
+    let data = req.body;
+    let memberID = parseInt(data.id);
+    let deleteMemberQuery = `DELETE FROM Members WHERE memberID = ?`;
   
-  
-          // Run the 1st query
+          // Run the query
           db.pool.query(deleteMemberQuery, [memberID], function(error, rows, fields){
                 if (error) {
   
@@ -234,27 +233,11 @@ app.delete('/delete-member-ajax/', function(req, res, next){
                     console.log(error);
                     res.sendStatus(400);
                 } else {
-                    // If there was no error, perform a SELECT * on Members
-                    query2 = `SELECT * FROM Members ORDER BY memberID;`;
-                    db.pool.query(query2, function(error, rows, fields){
-
-                // If there was an error on the second query, send a 400
-                if (error) {
-                    
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else
-                {
-                    res.render('members', {data: rows});
-                    res.send(rows);
+                    res.sendStatus(204);
                 }
             })
         }  
-        })
-  });
+        );
 
 /*
     UPDATE MEMBER 
@@ -596,14 +579,14 @@ app.post('/add-book-authors', function(req, res){
 */
 app.get('/checkouts', function(req, res)
 {
-    let query1 = `SELECT checkoutID, startTime, isReturned, BookCopies.bookCopyID, Books.title, Members.memberID, Members.firstName, Members.lastName 
+    let query1 = `SELECT checkoutID, startTime, CASE WHEN isReturned=1 THEN 'Yes' WHEN isReturned=0 THEN 'No' END AS isReturned, BookCopies.bookCopyID, Books.title, Members.memberID, Members.firstName, Members.lastName 
         FROM Checkouts 
         INNER JOIN BookCopies ON Checkouts.bookCopyID = BookCopies.bookCopyID 
         INNER JOIN Books ON BookCopies.bookID = Books.bookID 
         INNER JOIN Members ON Checkouts.memberID = Members.memberID
         WHERE isReturned = 0
         ORDER BY startTime DESC;`
-    let query2 = `SELECT checkoutID, startTime, isReturned, BookCopies.bookCopyID, Books.title, Members.memberID, Members.firstName, Members.lastName 
+    let query2 = `SELECT checkoutID, startTime, CASE WHEN isReturned=1 THEN 'Yes' WHEN isReturned=0 THEN 'No' END AS isReturned, BookCopies.bookCopyID, Books.title, Members.memberID, Members.firstName, Members.lastName 
         FROM Checkouts 
         INNER JOIN BookCopies ON Checkouts.bookCopyID = BookCopies.bookCopyID 
         INNER JOIN Books ON BookCopies.bookID = Books.bookID 
@@ -629,7 +612,7 @@ app.get('/checkouts', function(req, res)
 
 app.get('/newCheckout', function(req, res){
     
-    const query1 = "SELECT bookCopyID, Books.title FROM BookCopies INNER JOIN BookAuthors ON BookCopies.bookID = BookAuthors.bookID INNER JOIN Books ON BookAuthors.bookID = Books.bookID WHERE BookCopies.bookStatus = 'AVAILABLE' ORDER BY bookCopyID;"
+    const query1 = "SELECT bookCopyID, Books.title FROM BookCopies INNER JOIN Books ON BookCopies.bookID = Books.bookID WHERE BookCopies.bookStatus = 'AVAILABLE' ORDER BY bookCopyID;"
 
     db.pool.query(query1, function(error, rows, fields){
 
