@@ -5,7 +5,7 @@
 */
 var express = require('express');                               // We are using the express library for the web server
 var app     = express();                                        // We need to instantiate an express object to interact with the server in our code
-PORT        = 5124;                                             // Set a port number at the top so it's easy to change in the future
+PORT        = 5194;                                             // Set a port number at the top so it's easy to change in the future
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -612,11 +612,17 @@ app.get('/checkouts', function(req, res)
 
 app.get('/newCheckout', function(req, res){
     
-    const query1 = "SELECT bookCopyID, Books.title FROM BookCopies INNER JOIN Books ON BookCopies.bookID = Books.bookID WHERE BookCopies.bookStatus = 'AVAILABLE' ORDER BY bookCopyID;"
+    let query1 = "SELECT bookCopyID, Books.title FROM BookCopies INNER JOIN Books ON BookCopies.bookID = Books.bookID WHERE BookCopies.bookStatus = 'AVAILABLE' ORDER BY bookCopyID;"
+    let query2 = "SELECT memberID, firstName, lastName FROM Members ORDER BY lastName;"
+
 
     db.pool.query(query1, function(error, rows, fields){
+        const books = rows;
+        db.pool.query(query2, function(error, rows, fields){
+            const members = rows
 
-        res.render('newCheckout', {data: rows});
+        res.render('newCheckout', {data: books, data2: members});
+        })
     })
 });
 
@@ -630,11 +636,11 @@ app.post('/add-checkout-ajax', function(req, res)
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
     let bookCopyID = parseInt(data.bookCopyID);
-    let contactNumber = data.contactNumber;
+    let memberID = data.memberID;
     console.log(data)
 
     const query1 = `INSERT INTO Checkouts (startTime, isReturned, bookCopyID, memberID) 
-        VALUES ( (NOW()), 0, ${bookCopyID}, (SELECT memberID FROM Members WHERE contactNumber = "${contactNumber}"))`
+        VALUES ( (NOW()), 0, ${bookCopyID}, ${memberID})`
     
 
 

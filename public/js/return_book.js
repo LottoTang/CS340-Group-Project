@@ -55,7 +55,6 @@ function updateRow(data, checkoutID){
 
             // Get td of all values
             let hiddenButton = updateRowIndex.getElementsByTagName("td")[0];
-            console.log(updateRowIndex.getElementsByTagName("td")[0]);
 
             let newIfReturned = updateRowIndex.getElementsByTagName("td")[7];
             

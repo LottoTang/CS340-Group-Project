@@ -93,6 +93,40 @@
     <br>
 </div>
 
+<div id="updateCheckoutForm" style="display: none">
+    <h2>Update a Checkout</h2>
+
+    
+    <form id="update-checkout-form-ajax">
+        <legend>
+        </legend>
+        <fieldset class="fields">
+            <label for="selectCheckout">Which checkout would you like to update?</label>
+            
+            <select name="selectCheckout" id="selectCheckout">
+                <option value="noOption">Select a Checkout to Update</option>
+                {{#each data3}}
+                <option value="{{this.checkoutID}}">{{this.checkoutID}}: {{this.title}}, {{this.firstName}} {{this.lastName}}</option>
+                {{/each}}
+            </select>
+
+            <label for="input-updatedMember">Who checked this book out?</label>
+            <select name="input-updatedMember" id="input-updatedMember-update">
+                <option>Select a Member</option>
+                {{#each members}}
+                <option value="{{this.memberID}}">{{this.firstName}} {{this.lastName}}</option>
+                {{/each}}
+                <option value="null">NO MEMBER / NULL</option>
+            </select>
+            <input class="btn" type="submit">
+        </fieldset>
+    </form>
+
+
+
+</div>
+
 {{!-- Embed JS to handle DOM manipulation and AJAX request --}}
 <script src="./js/is_returned.js"></script>
 <script src="./js/return_book.js"></script>
+<script src="./js/edit_checkout.js"></script>

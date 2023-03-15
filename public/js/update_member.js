@@ -1,15 +1,41 @@
 function showUpdateMember(memberID) {
     let edit_form = document.getElementById('edit-member');
     let currentlyEditing = document.getElementById('mySelect');
-    let currentlyEditingValue = currentlyEditing.value;
-    if (edit_form.style.display === 'none') {
-        edit_form.style.display = 'block';
-        currentlyEditing.value = memberID;
-    } else if (currentlyEditingValue != memberID) {
-        currentlyEditing.value = memberID;
-    } else {
-        edit_form.style.display = 'none';
-    }
+    let currentlyEditingPhone = document.getElementById('input-contactNumber-update');
+    let currentlyEditingAddress = document.getElementById('input-currentAddress-update');
+    let currentlyEditingEmail = document.getElementById('input-email-update');
+    let table = document.getElementById("members-table");
+
+        for (let i = 0, row; row = table.rows[i]; i++) {
+        //iterate through rows
+        //rows would be accessed using the "row" variable assigned in the for loop
+        if (table.rows[i].getAttribute("data-value") == memberID) {
+
+                // Get the location of the row where we found the matching person ID
+                let updateRowIndex = table.getElementsByTagName("tr")[i];
+
+                // Get td of all values
+                let newContactNumber = updateRowIndex.getElementsByTagName("td")[3];
+                let newCurrentAddress = updateRowIndex.getElementsByTagName("td")[4];
+                let newEmail = updateRowIndex.getElementsByTagName("td")[5];
+
+                let currentlyEditingValue = currentlyEditing.value;
+
+                if (edit_form.style.display === 'none') {
+                    edit_form.style.display = 'block';
+                    currentlyEditing.value = memberID;
+                    currentlyEditingPhone.value = newContactNumber.innerText;
+                    currentlyEditingAddress.value = newCurrentAddress.innerText;
+                    currentlyEditingEmail.value = newEmail.innerText;
+                } else if (currentlyEditingValue != memberID) {
+                    currentlyEditing.value = memberID;
+                    currentlyEditingPhone.value = newContactNumber.innerText;
+                    currentlyEditingAddress.value = newCurrentAddress.innerText;
+                    currentlyEditingEmail.value = newEmail.innerText;
+                } else {
+                    edit_form.style.display = 'none';
+                }
+                    }}; 
 }
 
 
@@ -97,7 +123,6 @@ updateMemberForm.addEventListener("submit", function (e) {
 
                 // Get the location of the row where we found the matching person ID
                 let updateRowIndex = table.getElementsByTagName("tr")[i];
-                console.log(updateRowIndex)
 
                 // Get td of all values
                 let newContactNumber = updateRowIndex.getElementsByTagName("td")[3];

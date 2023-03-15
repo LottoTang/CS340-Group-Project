@@ -9,18 +9,26 @@ addCheckoutForm.addEventListener("submit", function (e) {
 
     // Get form fields we need to get data from
     let inputBook = document.getElementById("selectBook");
-    let inputPhone = document.getElementById("input-contactNumber");
+    let inputMember = document.getElementById("input-member");
     
     
     // Get the values from the form fields
     let bookValue = inputBook.value;
-    let phoneValue = inputPhone.value;
+    let memberValue = inputMember.value;
     
+    if (bookValue == "test") {
+        alert("Please select a book to check out");
+        return;
+    };
+    if (memberValue == "noOption") {
+        alert("Please select a library member");
+        return;
+    };
 
     // Put our data we want to send in a javascript object
     let data = {
         bookCopyID: bookValue,
-        contactNumber: phoneValue
+        memberID: memberValue
     }
     
     // Setup our AJAX request
@@ -37,7 +45,7 @@ addCheckoutForm.addEventListener("submit", function (e) {
 
             // Clear the input fields for another transaction
             inputBook.value = 'test';
-            inputPhone.value = '';
+            inputPhone.value = 'noOption';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
