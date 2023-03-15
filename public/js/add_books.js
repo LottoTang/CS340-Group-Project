@@ -46,15 +46,22 @@ addBookSubmit.addEventListener("click", function (e) {
     // Get the values from the form fields
     const bookTitleValue = inputBookTitle.value;
 
+    // NULL input checking
+    if (!bookTitleValue) {
+        alert("Book Title Must Not Be Null.");
+        return;
+    }
+
     // Input from dropdown list (for bookCopies)
-    const inputAuthorValue = [];
+    var inputAuthorValue = [];
     if (inputAuthor.length > 1) { 
         for (var i = 0; i < inputAuthor.length; i++) {
-            inputAuthorValue[i] = inputAuthor[i].value;
+                inputAuthorValue[i] = inputAuthor[i].value;
         }
     } else {
-        inputAuthorValue[0] = inputAuthor[0].value;
+            inputAuthorValue[0] = inputAuthor[0].value;
     }
+
 
     // Get input from new author registration
     const newAuthorFirstName = document.getElementsByClassName('input-author-firstName');
@@ -62,10 +69,9 @@ addBookSubmit.addEventListener("click", function (e) {
 
     var authorNotFound = false;
     var addBookDone = false;
-    var addAuthorDone = false;
     var addBookCopyDone = false;
-    const inputAuthorFirstName = [];
-    const inputAuthorLastName = []; 
+    var inputAuthorFirstName = [];
+    var inputAuthorLastName = []; 
 
     if (newAuthorFirstName.length > 0 && newAuthorLastName.length > 0) {
         authorNotFound = true;
@@ -73,6 +79,19 @@ addBookSubmit.addEventListener("click", function (e) {
             inputAuthorFirstName[i] = newAuthorFirstName[i].value;
             inputAuthorLastName[i] = newAuthorLastName[i].value;
         }
+    }
+
+    const inputAuthorValueSet = new Set(inputAuthorValue);
+
+    // NULL input checking
+    if (inputAuthorValue.includes('') && (inputAuthorFirstName.length == 0 || inputAuthorLastName == 0)) {
+        alert("Must Select An Author OR Register A New Author.");
+        return;
+    }
+
+    if ((inputAuthorValueSet.length == 1 && inputAuthorValueSet.has('')) && (inputAuthorFirstName.length == 0 || inputAuthorLastName == 0)) {
+        alert("Author Must Not Be Null.");
+        return;
     }
 
     const goInsert = confirm(`Are you sure you want to add the data into the database?`);
@@ -92,6 +111,11 @@ addBookSubmit.addEventListener("click", function (e) {
         const bookCopy = {
             title: bookTitleValue,
         }
+
+        // exclude the '' value
+        inputAuthorValue = inputAuthorValue.filter(Boolean);
+        inputAuthorFirstName = inputAuthorFirstName.filter(Boolean);
+        inputAuthorLastName = inputAuthorLastName.filter(Boolean);
 
         const bookAuthors = {
             title: bookTitleValue,
@@ -134,7 +158,7 @@ addBookSubmit.addEventListener("click", function (e) {
 
             // Tell our AJAX request how to resolve
             xhttpAuthor.onreadystatechange = () => {
-                if (xhttpAuthor.readyState == 4 && xhttpAuthor.status == 204) {
+                if (xhttpAuthor.readyState == 4 && xhttpAuthor.status == 200) {
 
                     // Add the new data to the table
                     // addRowToTableAuthor(xhttpAuthor.response);
@@ -143,7 +167,7 @@ addBookSubmit.addEventListener("click", function (e) {
                     inputAuthorFirstName.value = '';
                     inputAuthorLastName.value = '';
                 }
-                else if (xhttpAuthor.readyState == 4 && xhttpAuthor.status != 204) {
+                else if (xhttpAuthor.readyState == 4 && xhttpAuthor.status != 200) {
                     console.log("There was an error with the input.")
                 }
             }
@@ -161,13 +185,13 @@ addBookSubmit.addEventListener("click", function (e) {
 
             // Tell our AJAX request how to resolve
             xhttpBookCopies.onreadystatechange = () => {
-                if (xhttpBookCopies.readyState == 4 && xhttpBookCopies.status == 204) {
+                if (xhttpBookCopies.readyState == 4 && xhttpBookCopies.status == 200) {
 
                     // Add the new data to the table
                     console.log("Send book copy successful.")
                     
                 }
-                else if (xhttpBookCopies.readyState == 4 && xhttpBookCopies.status != 204) {
+                else if (xhttpBookCopies.readyState == 4 && xhttpBookCopies.status != 200) {
                     console.log("There was an error with the input.")
                 }
             }
@@ -184,12 +208,12 @@ addBookSubmit.addEventListener("click", function (e) {
 
                 // Tell our AJAX request how to resolve
                 xhttpBookAuthors.onreadystatechange = () => {
-                    if (xhttpBookAuthors.readyState == 4 && xhttpBookAuthors.status == 204) {
+                    if (xhttpBookAuthors.readyState == 4 && xhttpBookAuthors.status == 200) {
 
                         // Add the new data to the table
                         console.log("Send book author successful.")
                     }
-                    else if (xhttpBookAuthors.readyState == 4 && xhttpBookAuthors.status != 204) {
+                    else if (xhttpBookAuthors.readyState == 4 && xhttpBookAuthors.status != 200) {
                         console.log("There was an error with the input.")
                     }
                 }

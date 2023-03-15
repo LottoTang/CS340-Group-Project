@@ -65,7 +65,7 @@
             <p class="dropdown-list">
                 <label for="authors"> Author Name: </label>
                 <select name="authors" class="dropdown-authors-ajax">
-                    <option value="">-- Author Not Found --</option>
+                    <option value="">Select Author(s)</option>
                     {{#each authors}}
                     <option value="{{this.authorID}}"> {{this.firstName}} {{this.lastName}}</option>
                     {{/each}}
@@ -74,8 +74,8 @@
         </div>
         <div id="extra-author-container" style="display: block"></div>
         <p>
-            <button type="button" id="extra-author-dropdown" onclick="extraAuthor()">Click Here if Co-Authors</button>
-            <button type="button" id="register-author" onclick="registerAuthor()">Click Here if Author Not Found</button>
+            <button type="button" id="extra-author-dropdown" onclick="extraAuthor()">Add Existing Author(s)</button>
+            <button type="button" id="register-author" onclick="registerAuthor()">Register New Author(s)</button>
         </p>
         <input class="btn" type="submit" id="add-book-form-ajax-submit" value="Submit">
     </fieldset>
@@ -89,7 +89,7 @@
                 <h3>Edit Book</h3>
             </legend>
             <p>
-                <label for="authors"> Book TItle: </label>
+                <label for="authors"> Book Title: </label>
                 <select name="authors" id="dropdown-books-ajax">
                     {{#each data}}
                     <option value="{{this.bookID}}"> {{this.title}}</option>

@@ -20,6 +20,7 @@ function deleteAuthor(authorID) {
                 window.alert('Delete Successful');
             }
             else if (xhttp.readyState == 4 && xhttp.status != 204) {
+                alert("Delete Unsuccessful.\nThe Author is associated with Existing Book(s).");
                 console.log("There was an error with the input.")
             }
         }
