@@ -548,7 +548,7 @@ app.post('/add-book-authors', function(req, res){
         query += nameString[i];
     }
 
-    if (authorIDTotal.length >= 1) {
+    if (firstName.length >= 1) {
         query += ", ";
     }
 
