@@ -36,7 +36,7 @@ function showUpdateMember(memberID) {
                     edit_form.style.display = 'none';
                 }
                     }}; 
-}
+};
 
 
 // Get the objects we need to modify

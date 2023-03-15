@@ -22,6 +22,7 @@
                 <th>Book Title</th>
                 <th>Start Time</th>
                 <th>Returned?</th>
+                <th>Edit Checkout</th>
             </tr>
         </thead>
 
@@ -38,6 +39,9 @@
                 <td>{{this.title}}</td>
                 <td>{{this.startTime}}</td>
                 <td>{{this.isReturned}}</td>
+                <td>
+                    <button value="{{this.checkoutID}}" onclick="toggleShowEditCheckout({{this.checkoutID}}, {{this.memberID}});">Edit This Checkout</button>
+                </td>
             </tr>
             {{/each}}
         </tbody>
@@ -69,12 +73,13 @@
                 <th>Book Title</th>
                 <th>Start Time</th>
                 <th>Returned?</th>
+                <th>Edit Checkout</th>
             </tr>
         </thead>
 
         <tbody>
             {{#each data2}}
-            <tr>
+            <tr data-value="{{this.checkoutID}}">
                 <td>
                     <button disabled>Returned</button>
                 </td>
@@ -85,6 +90,9 @@
                 <td>{{this.title}}</td>
                 <td>{{this.startTime}}</td>
                 <td>{{this.isReturned}}</td>
+                <td>
+                    <button value="{{this.checkoutID}}" onclick="toggleShowEditCheckout({{this.checkoutID}}, {{this.memberID}});">Edit This Checkout</button>
+                </td>
             </tr>
             {{/each}}
         </tbody>
@@ -106,18 +114,22 @@
             <select name="selectCheckout" id="selectCheckout">
                 <option value="noOption">Select a Checkout to Update</option>
                 {{#each data3}}
-                <option value="{{this.checkoutID}}">{{this.checkoutID}}: {{this.title}}, {{this.firstName}} {{this.lastName}}</option>
+                <option value="{{this.checkoutID}}">{{this.checkoutID}}: {{this.title}} - {{this.lastName}}, {{this.firstName}}</option>
                 {{/each}}
             </select>
+            <br>
+            <br>
 
             <label for="input-updatedMember">Who checked this book out?</label>
-            <select name="input-updatedMember" id="input-updatedMember-update">
+            <select name="input-updatedMember" id="input-updatedMember">
                 <option>Select a Member</option>
-                {{#each members}}
-                <option value="{{this.memberID}}">{{this.firstName}} {{this.lastName}}</option>
+                {{#each data4}}
+                <option value="{{this.memberID}}">{{this.lastName}}, {{this.firstName}} </option>
                 {{/each}}
                 <option value="null">NO MEMBER / NULL</option>
             </select>
+            <br>
+            <br>
             <input class="btn" type="submit">
         </fieldset>
     </form>
