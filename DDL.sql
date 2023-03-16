@@ -61,7 +61,7 @@ CREATE TABLE Checkouts (
     startTime DATETIME NOT NULL,
     isReturned TINYINT NOT NULL DEFAULT 1,
     bookCopyID INT NOT NULL,
-    memberID INT NOT NULL,
+    memberID INT,
     PRIMARY KEY (checkoutID),
     FOREIGN KEY (bookCopyID) REFERENCES BookCopies (bookCopyID) ON DELETE CASCADE,
     FOREIGN KEY (memberID) REFERENCES Members (memberID) ON DELETE CASCADE

@@ -5,7 +5,7 @@ function toggleShowHiddenBooks() {
     } else {
         returnedSection.style.display = 'none';
     }
-}
+};
 
 
 function return_book(checkoutID) {
@@ -27,7 +27,7 @@ function return_book(checkoutID) {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
 
                 // Add the new data to the table
-                updateRow(xhttp.response, checkoutID);
+                updateRowOnReturn(checkoutID);
 
             }
             else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -39,9 +39,7 @@ function return_book(checkoutID) {
         xhttp.send(JSON.stringify(data));
     };
 
-function updateRow(data, checkoutID){
-
-    let parsedData = JSON.parse(data);
+function updateRowOnReturn(checkoutID){
     
     let table = document.getElementById("checkouts-table");
 
@@ -58,9 +56,9 @@ function updateRow(data, checkoutID){
 
             let newIfReturned = updateRowIndex.getElementsByTagName("td")[7];
             
-            hiddenButton.firstElementChild.setAttribute("disabled", "")
+            hiddenButton.firstElementChild.setAttribute("disabled", "");
         //    hiddenButton.appendChild(document.createElement("button"))
-            newIfReturned.innerHTML = "Yes"
+            newIfReturned.innerHTML = "Yes";
             
     }
     }

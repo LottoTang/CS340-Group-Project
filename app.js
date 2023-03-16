@@ -224,20 +224,33 @@ app.delete('/delete-member-ajax/', function(req, res, next){
     let data = req.body;
     let memberID = parseInt(data.id);
     let deleteMemberQuery = `DELETE FROM Members WHERE memberID = ?`;
+    // deleting a member must return all their books
+    let updateBookStatusQuery = `UPDATE BookCopies SET bookStatus = "AVAILABLE" 
+        WHERE bookCopyID IN 
+        (SELECT bookCopyID FROM Checkouts 
+            INNER JOIN Members ON Checkouts.memberID = Members.memberID 
+            WHERE Members.memberID = ${memberID});`
   
           // Run the query
-          db.pool.query(deleteMemberQuery, [memberID], function(error, rows, fields){
+          db.pool.query(updateBookStatusQuery, function(error, rows, fields){
                 if (error) {
   
                     // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                     console.log(error);
                     res.sendStatus(400);
-                } else {
+                } else {db.pool.query(deleteMemberQuery, [memberID], function(error, rows, fields){
+                    if (error) {
+      
+                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
                     res.sendStatus(204);
                 }
             })
-        }  
-        );
+        }
+    }  
+)});
 
 /*
     UPDATE MEMBER 
@@ -583,21 +596,21 @@ app.get('/checkouts', function(req, res)
         FROM Checkouts 
         INNER JOIN BookCopies ON Checkouts.bookCopyID = BookCopies.bookCopyID 
         INNER JOIN Books ON BookCopies.bookID = Books.bookID 
-        INNER JOIN Members ON Checkouts.memberID = Members.memberID
+        LEFT JOIN Members ON Checkouts.memberID = Members.memberID
         WHERE isReturned = 0
         ORDER BY startTime DESC;`
     let query2 = `SELECT checkoutID, startTime, CASE WHEN isReturned=1 THEN 'Yes' WHEN isReturned=0 THEN 'No' END AS isReturned, BookCopies.bookCopyID, Books.title, Members.memberID, Members.firstName, Members.lastName 
         FROM Checkouts 
         INNER JOIN BookCopies ON Checkouts.bookCopyID = BookCopies.bookCopyID 
         INNER JOIN Books ON BookCopies.bookID = Books.bookID 
-        INNER JOIN Members ON Checkouts.memberID = Members.memberID
+        LEFT JOIN Members ON Checkouts.memberID = Members.memberID
         WHERE isReturned = 1
         ORDER BY startTime DESC;`
     let query3 = `SELECT checkoutID, startTime, CASE WHEN isReturned=1 THEN 'Yes' WHEN isReturned=0 THEN 'No' END AS isReturned, BookCopies.bookCopyID, Books.title, Members.memberID, Members.firstName, Members.lastName 
         FROM Checkouts 
         INNER JOIN BookCopies ON Checkouts.bookCopyID = BookCopies.bookCopyID 
         INNER JOIN Books ON BookCopies.bookID = Books.bookID 
-        INNER JOIN Members ON Checkouts.memberID = Members.memberID
+        LEFT JOIN Members ON Checkouts.memberID = Members.memberID
         ORDER BY checkoutID ASC;`
     let query4 = "SELECT * FROM Members ORDER BY memberID;"                   
 
@@ -743,14 +756,13 @@ app.put('/return-book-ajax', function(req,res,next){
 */
 app.put('/put-checkout-ajax/', function(req,res,next){
     let data = req.body;
-
     let checkoutID = parseInt(data.checkoutID);
-    let memberID = parseInt(data.memberID);
 
-    let queryUpdateCheckout = `UPDATE Checkouts SET memberID = ${memberID} WHERE Checkouts.checkoutID = ${checkoutID};`;
-    let allCheckouts = `SELECT Checkouts.memberID, Members.firstName, Members.lastName FROM Checkouts INNER JOIN Members ON Checkouts.memberID = Members.memberID WHERE Checkouts.checkoutID = ${checkoutID};`;
+    if (data.memberID == 'null') {
+        let nullifyQuery = `UPDATE Checkouts SET Checkouts.memberID = NULL WHERE Checkouts.checkoutID = ${checkoutID};`;
+        let allCheckouts = `SELECT Checkouts.memberID, Members.firstName, Members.lastName FROM Checkouts INNER JOIN Members ON Checkouts.memberID = Members.memberID WHERE Checkouts.checkoutID = ${checkoutID};`;
 
-        db.pool.query(queryUpdateCheckout, function(error, rows, fields){
+        db.pool.query(nullifyQuery, function(error, rows, fields){
             if (error){
                 console.log(error);
                 res.sendStatus(400);
@@ -765,9 +777,33 @@ app.put('/put-checkout-ajax/', function(req,res,next){
                         res.send(rows);
                     }
                 })
-            }
-        })
+    }})}
+    else {
+        let memberID = parseInt(data.memberID);
+
+        let queryUpdateCheckout = `UPDATE Checkouts SET memberID = ${memberID} WHERE Checkouts.checkoutID = ${checkoutID};`;
+        let allCheckouts = `SELECT Checkouts.memberID, Members.firstName, Members.lastName FROM Checkouts INNER JOIN Members ON Checkouts.memberID = Members.memberID WHERE Checkouts.checkoutID = ${checkoutID};`;
+
+            db.pool.query(queryUpdateCheckout, function(error, rows, fields){
+                if (error){
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else{
+                    db.pool.query(allCheckouts, function(error, rows, fields){
+                        if(error){
+                            console.log(error);
+                            res.sendStatus(400);
+                        }
+                        else {
+                            res.send(rows);
+                        }
+                    })
+                }
+            })
+        }
 });
+
 
 
 /*
