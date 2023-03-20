@@ -1,14 +1,11 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<div id="browse" style="display: block">
-    <div class="page-sub-heading">
-        <h2>
-            Library Members
-        </h2>
-    </div>
+<div class="page-sub-heading">
+    <h2>Library Members</h2>
+</div>
 
-
-    <table id="members-table" border="1" cellpadding="5">
+<div id="browse" class="table-container" style="display: block">
+    <table id="members-table">
         <thead>
             <tr>
                 <th>Member ID</th>
@@ -20,7 +17,6 @@
                 <th>Update/Delete</th>
             </tr>
         </thead>
-
         <tbody>
             {{#each data}}
             <tr data-value="{{this.memberID}}">
@@ -31,60 +27,50 @@
                 <td>{{this.currentAddress}}</td>
                 <td>{{this.email}}</td>
                 <td>
-                    <button onclick="showUpdateMember({{this.memberID}});">Edit</button>
-                    <button onclick="deleteMember({{this.memberID}})">Delete</button>
+                    <button class="btn" onclick="showUpdateMember({{this.memberID}});">Edit</button>
+                    <button class="btn" onclick="deleteMember({{this.memberID}})">Delete</button>
                 </td>
             </tr>
             {{/each}}
         </tbody>
     </table>
-    <br>
-    <br>
 </div>
 
-
 <div id="insert" style="display: block">
+    <hr>
     <h3>Add New Members</h3>
     <form id="add-member-form-ajax">
-        <legend>
-            <strong>Add Member</strong>
-        </legend>
         <fieldset class="fields">
-
-            <label for="input-firstName">First Name: </label>
-            <input type="text" name="input-firstName" id="input-firstName">
-
-            <label for="input-lastName">Last Name: </label>
-            <input type="text" name="input-lastName" id="input-lastName">
-            <br>
-            <br>
-
-            <label for="input-contactNumber">Phone: </label>
-            <input type="tel" name="input-contactNumber" id="input-contactNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-            <small>Format: 123-456-7890</small>
-            <br>
-            <br>
-            <label for="input-currentAddress">Home address: </label>
-            <input type="text" name="input-currentAddress" id="input-currentAddress">
-            <br>
-            <br>
-            <label for="input-email">Email address:</label>
-            <input type="email" name="input-email" id="input-email">
-            <br>
-            <br>
+            <p>
+                <label for="input-firstName">First Name: </label>
+                <input type="text" name="input-firstName" id="input-firstName">
+            </p>
+            <p>
+                <label for="input-lastName">Last Name: </label>
+                <input type="text" name="input-lastName" id="input-lastName">
+            </p>
+            <p>
+                <label for="input-contactNumber">Phone: </label>
+                <input type="tel" name="input-contactNumber" id="input-contactNumber" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+            </p>
+            <p>
+                <label for="input-currentAddress">Home address: </label>
+                <input type="text" name="input-currentAddress" id="input-currentAddress">
+            </p>
+            <p>
+                <label for="input-email">Email address:</label>
+                <input type="email" name="input-email" id="input-email">
+            </p>
             <input class="btn" type="submit">
         </fieldset>
     </form>
+    <hr>
 </div>
-
 
 {{!-- Update a member --}}
 <div id="edit-member" style="display: none;">
-    <h2>Update a Member</h2>
+    <h3>Update a Member</h3>
     <form id="update-member-form-ajax">
-        <legend>
-            <h4>Edit Member</h4>
-        </legend>
         <fieldset class="fields">
             <label for="input-name">Member Name:</label>
             <select name="input-name" id="mySelect">
@@ -93,26 +79,24 @@
                 <option value="{{this.memberID}}">{{this.firstName}} {{this.lastName}}</option>
                 {{/each}}
             </select>
-
-            <label for="input-contactNumber-update">Phone: </label>
-            <input type="tel" name="input-contactNumber-update" id="input-contactNumber-update" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-            <small>Format: 123-456-7890</small>
-            <br>
-            <br>
-            <label for="input-currentAddress-update">Home address: </label>
-            <input type="text" name="input-currentAddress-update" id="input-currentAddress-update">
-            <br>
-            <br>
-            <label for="input-email-update">Email address:</label>
-            <input type="email" name="input-email-update" id="input-email-update">
-            <br>
-            <br>
+            <p>
+                <label for="input-contactNumber-update">Phone: </label>
+                <input type="tel" name="input-contactNumber-update" id="input-contactNumber-update" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+            </p>
+            <p>
+                <label for="input-currentAddress-update">Home address: </label>
+                <input type="text" name="input-currentAddress-update" id="input-currentAddress-update">
+            </p>
+            <p>
+                <label for="input-email-update">Email address:</label>
+                <input type="email" name="input-email-update" id="input-email-update">
+            </p>
             <input class="btn" type="submit">
         </fieldset>
     </form>
+    <hr>
 </div>
             
-
 
 {{!-- Embed JS to handle DOM manipulation and AJAX request --}}
 <script src="./js/add_members.js"></script>
