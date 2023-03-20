@@ -4,7 +4,7 @@
 </div>
 
 {{!-- Create a table --}}
-<table id="book-copy-table" border="1" cellpadding="5">
+<table id="book-copy-table">
 
     {{!-- Header section --}}
     <thead>
@@ -15,7 +15,7 @@
             <th>Book Copy ID</th>
             <th>Book Title</th>
             <th>Book Status</th>
-            <th></th>
+            <th>Delete</th>
         </tr>
     </thead>
 
@@ -27,7 +27,7 @@
             <td>{{this.bookCopyID}}</td>
             <td>{{this.title}}</td>
             <td>{{this.bookStatus}}</td>
-            <td><button type="button" onclick="deleteBookCopy({{this.bookCopyID}})">Delete</button></td>
+            <td><button type="button" class="btn" onclick="deleteBookCopy({{this.bookCopyID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
@@ -35,10 +35,9 @@
 
 {{!-- Form to add a record to the table  --}}
 <form id="add-book-copy-form-ajax">
+    <hr>
+    <h3>Add New Book Copies</h3>
     <fieldset>
-        <legend>
-            <h3>Add Book Copy</h3>
-        </legend>
         <div id="dropdown-list-container">
             <p class="dropdown-list">
                 <label for="book-title"> Book Title: </label>
@@ -51,6 +50,7 @@
         </div>
         <input class="btn" type="submit" id="add-book-copy-form-ajax-submit" value="Submit">
     </fieldset>
+    <hr>
 </form>
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}

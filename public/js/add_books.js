@@ -10,18 +10,18 @@ function registerAuthor() {
     const newPara = document.createElement('p')
     const newFirstNameLabel = document.createElement('label');
     newFirstNameLabel.textContent = 'New Author First Name: ';
+    newFirstNameLabel.setAttribute('class', 'input-author-name');
     const newFirstNameInput = document.createElement('input');
     newFirstNameInput.type = "text";
-    newFirstNameInput.setAttribute('class', 'input-author-firstName');
 
     newPara.appendChild(newFirstNameLabel);
     newPara.appendChild(newFirstNameInput);
 
     const newLastNameLabel = document.createElement('label');
     newLastNameLabel.textContent = 'New Author Last Name: ';
+    newLastNameLabel.setAttribute('class', 'input-author-name');
     const newLastNameInput = document.createElement('input');
     newLastNameInput.type = "text";
-    newLastNameInput.setAttribute('class', 'input-author-lastName');
 
     newPara.appendChild(newLastNameLabel);
     newPara.appendChild(newLastNameInput);

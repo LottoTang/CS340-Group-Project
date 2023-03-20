@@ -1,0 +1,153 @@
+/* Imports */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600;800&display=swap');
+
+
+body, html {
+    background-color: #ecf2f8;
+    box-sizing: border-box;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: 24px;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+/* Tag Selector*/
+
+a {
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    text-decoration: none;
+}
+
+a:hover {
+    opacity: 70%;
+}
+
+footer {
+    background: #c7cdd3;
+    bottom: 0;
+    height: 5rem;
+    position: absolute;
+    width: 100%;
+}
+
+footer p {
+    font-weight: 600;
+}
+
+form {
+    margin: 0 auto;
+    width: 50%;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+header {
+    background-color: #c7cdd3;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+hr {
+    border: none;
+    border-bottom: 0.4rem dotted;
+    color: #7990F2;
+    margin: 0.75rem auto;
+    opacity: 30%;
+    width: 5%;
+}
+
+input {
+    padding: 0.25rem;
+}
+
+label {
+    padding: 0.4rem;
+}
+
+nav {
+    font-size: 1.2rem;
+}
+
+select {
+    padding: 0.25rem;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    max-width: 90%;
+}
+
+td {
+    padding: 0.25rem;
+}
+
+th {
+    padding: 1rem 1.5rem;
+}
+
+thead {
+	background:#c7cdd3;
+    font-size: 1.2rem;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #d4dee7;
+}
+
+tbody tr:hover {
+    transform: scale(1.02);
+}
+
+/* Class Selector*/
+
+.body-container {
+    padding-bottom: 5rem;
+}
+
+.btn {
+    background: #c7cdd3;
+    border: none;
+    border-radius: 5%;
+    color: black;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem;
+}
+
+.btn:hover {
+    opacity: 70%;
+}
+
+.description {
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.main-container {
+    min-height: 100%;
+    position: relative;
+}
+
+

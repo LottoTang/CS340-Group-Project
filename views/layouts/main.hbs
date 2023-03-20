@@ -5,35 +5,41 @@
     <head>
         <meta charset="utf-8">
         <title>Bedford Library</title>
+        <link rel="stylesheet" href="/css/style.css">
     </head>
 
-    <body>
-        <header>
-            <div>
+    <div class="main-container">
+        <div class="header-container">
+            <header>
                 <h1>Bedford Library Management System</h1>
-            </div>
-        </header>
-        <nav>
-                [ 
-                <a href="./">Home</a>
-                |
-                <a href="./members">Members</a>
-                | 
-                <a href="./books">Books</a>
-                | 
-                <a href="./authors">Authors</a>
-                | 
-                <a href="./bookCopies">Book Copies</a>
-                | 
-                <a href="./checkouts">Checkouts</a> 
-                ]
-        </nav>
-        {{{body}}}
-    </body>
-
-    <footer>
-        <div>
-            <p>© 2023 Julian Peterson, Long To Lotto Tang</p>
+                <nav>
+                    [ 
+                    <a href="./">Home</a>
+                    |
+                    <a href="./members">Members</a>
+                    | 
+                    <a href="./books">Books</a>
+                    | 
+                    <a href="./authors">Authors</a>
+                    | 
+                    <a href="./bookCopies">Book Copies</a>
+                    | 
+                    <a href="./checkouts">Checkouts</a> 
+                    ]
+                </nav>
+            </header>
         </div>
-    </footer>
+
+        <div class="body-container">
+            <body>
+                {{{body}}}
+            </body>
+        </div>
+
+        <div class="footer-container">
+            <footer>
+                <p>© 2023 Julian Peterson, Long To Lotto Tang</p>
+            </footer>
+        </div>
+    </div>
 </html>

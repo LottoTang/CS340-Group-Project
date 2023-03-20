@@ -1,36 +1,34 @@
 <div class="page-sub-heading">
     <h2>Book Collection</h2>
-    <p>Click the title of a book to view the information of the book</p>
+    <p>Click the title of a book to view its information</p>
 </div>
 
 {{!-- Create a table --}}
-<table id="book-table" border="1" cellpadding="5">
-
+<table id="book-table">
     {{!-- Header section --}}
     <thead>
-
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
             <th>Item</th>
             <th>Title</th>
             <th>Quantity</th>
-            <th></th>
-            <th></th>
+            <th>Update/Delete</th>
         </tr>
     </thead>
 
     {{!-- Body section --}}
     <tbody>
-
         {{!-- For each row, print the id and title, in order --}}
         {{#each data}}
         <tr data-value="{{this.bookID}}">
             <td>{{counter @index}}</td>
             <td><a href="#" onclick="showBookAuthors({{this.bookID}})">{{this.title}}</a></td>
             <td>{{this.Total}}</td>
-            <td><button type="button" onclick="showEditBook({{this.bookID}})">Edit</button></td>
-            <td><button type="button" onclick="deleteBook({{this.bookID}})">Delete</button></td>
+            <td>
+                <button class="btn" type="button" onclick="showEditBook({{this.bookID}})">Edit</button>
+                <button class="btn" type="button" onclick="deleteBook({{this.bookID}})">Delete</button>
+            </td>
         </tr>
         {{/each}}
     </tbody>
@@ -38,7 +36,8 @@
 
 {{!-- Table to show bookAuthors --}}
 <div id="show-book-authors" style="display: none">
-    <h4>Book Details</h4>
+    <hr>
+    <h3>Book Details</h3>
     <table border="1" cellpadding="5">
         <thead>
             <tr>
@@ -52,42 +51,44 @@
 </div>
 
 {{!-- Form to add a record to the table  --}}
-<form id="add-book-form-ajax">
-    <fieldset>
-        <legend>
-            <h3>Add Book</h3>
-        </legend>
-        <p>
-            <label for="input-book-title">Book Title: </label>
-            <input type="text" name="input-book-title" id="input-book-title">
-        </p>
-        <div id="dropdown-list-container">
-            <p class="dropdown-list">
-                <label for="authors"> Author Name: </label>
-                <select name="authors" class="dropdown-authors-ajax">
-                    <option value="">Select Author(s)</option>
-                    {{#each authors}}
-                    <option value="{{this.authorID}}"> {{this.firstName}} {{this.lastName}}</option>
-                    {{/each}}
-                </select>
+<div id="insert" style="display: block">
+    <hr>
+    <h3>Add New Books</h3>
+    <form id="add-book-form-ajax">
+        <fieldset>
+            <p class="description">The form will also automatically add to Authors, Books, BookAuthors and BookCopies</p>
+            <p class="description">If more than 1 author, please press "Add Existing Author(s)" for recored authors OR "Register New Author(s)" for new authors</p>
+            <p>
+                <label for="input-book-title">Book Title: </label>
+                <input type="text" name="input-book-title" id="input-book-title">
             </p>
-        </div>
-        <div id="extra-author-container" style="display: block"></div>
-        <p>
-            <button type="button" id="extra-author-dropdown" onclick="extraAuthor()">Add Existing Author(s)</button>
-            <button type="button" id="register-author" onclick="registerAuthor()">Register New Author(s)</button>
-        </p>
-        <input class="btn" type="submit" id="add-book-form-ajax-submit" value="Submit">
-    </fieldset>
-</form>
+            <div id="dropdown-list-container">
+                <p class="dropdown-list">
+                    <label for="authors"> Author Name: </label>
+                    <select name="authors" class="dropdown-authors-ajax">
+                        <option value="">Select Author(s)</option>
+                        {{#each authors}}
+                        <option value="{{this.authorID}}"> {{this.firstName}} {{this.lastName}}</option>
+                        {{/each}}
+                    </select>
+                </p>
+            </div>
+            <div id="extra-author-container" style="display: block"></div>
+            <p>
+                <button class="btn" type="button" id="extra-author-dropdown" onclick="extraAuthor()">Add Existing Author(s)</button>
+                <button class="btn" type="button" id="register-author" onclick="registerAuthor()">Register New Author(s)</button>
+            </p>
+            <input class="btn" type="submit" id="add-book-form-ajax-submit" value="Submit">
+        </fieldset>
+    </form>
+    <hr>
+</div>
 
 {{!-- Form to edit a record --}}
 <div id="edit-book" style="display: none">
+    <h3>Update a Book</h3>
     <form id="edit-book-form-ajax">
         <fieldset>
-            <legend>
-                <h3>Edit Book</h3>
-            </legend>
             <p>
                 <label for="authors"> Book Title: </label>
                 <select name="authors" id="dropdown-books-ajax">
@@ -103,6 +104,7 @@
             <input class="btn" type="submit" id="edit-book-button" value="Save Changes">
         </fieldset>
     </form>
+    <hr>
 </div>
 <br>
 
