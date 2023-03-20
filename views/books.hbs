@@ -104,6 +104,35 @@
         </fieldset>
     </form>
 </div>
+<br>
+
+<div id="allBookAuthors">
+    <h2>Book-Authors</h2>
+    <p>See all connections between Books and Authors here</p>
+
+    <table id="bookAuthors-table" border="1" cellpadding="5">
+
+        {{!-- Header section --}}
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+
+        {{!-- Body section --}}
+        <tbody>
+
+            {{!-- For each row, print the id and title, in order --}}
+            {{#each data2}}
+            <tr>
+                <td>{{this.title}}</td>
+                <td>{{this.lastName}}, {{this.firstName}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_books.js"></script>

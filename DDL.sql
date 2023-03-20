@@ -49,7 +49,7 @@ CREATE TABLE BookCopies (
 	bookCopyID INT AUTO_INCREMENT NOT NULL,
     bookID INT NOT NULL,
     bookStatus VARCHAR(45) NOT NULL DEFAULT "AVAILABLE",
-    PRIMARY KEY (bookCopyID, bookID),
+    PRIMARY KEY (bookCopyID),
     FOREIGN KEY (bookID) REFERENCES Books (bookID) ON DELETE CASCADE
 );
 DESCRIBE BookCopies;

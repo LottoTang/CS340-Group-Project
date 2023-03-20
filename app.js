@@ -57,10 +57,13 @@ app.get('/members', function(req, res)
 /*
     RETRIEVE BOOKS
 */
-app.get('/books', function(req, res)
-{     
+app.get('/books', function(req, res) {     
     const query1 = "SELECT Books.bookID, Books.title, COUNT(BookCopies.bookID) AS Total FROM Books INNER JOIN BookCopies ON Books.bookID = BookCopies.bookID GROUP BY Books.title ORDER BY Books.title;"; 
     const query2 = "SELECT * FROM Authors ORDER BY Authors.firstName, Authors.lastName;";
+    const query3 = `SELECT Books.title, Authors.firstName, Authors.lastName FROM Books
+    INNER JOIN BookAuthors ON Books.BookID = BookAuthors.bookID 
+    INNER JOIN Authors ON BookAuthors.authorID = Authors.authorID
+    ORDER BY Authors.lastName`
     db.pool.query(query1, function(error, rows, fields) {    
 
         // save the books
@@ -71,9 +74,15 @@ app.get('/books', function(req, res)
 
             // save the authors
             const authors = rows;
-            res.render('books', {data: books, authors: authors});                  
+
+            db.pool.query(query3, (error, rows, fields) => {
+
+                // save the BookAuthors
+                const bookAuthors = rows;
+            res.render('books', {data: books, authors: authors, data2: bookAuthors});
         })                                                      
     })
+})
 });
 
 /*
