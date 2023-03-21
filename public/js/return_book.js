@@ -28,6 +28,7 @@ function return_book(checkoutID) {
 
                 // Add the new data to the table
                 updateRowOnReturn(checkoutID);
+                alert("Book successfully returned.");
 
             }
             else if (xhttp.readyState == 4 && xhttp.status != 200) {

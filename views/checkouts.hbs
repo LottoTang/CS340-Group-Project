@@ -1,6 +1,8 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-
+<br>
+<br>
+<button class="btn" onclick="window.location.href='./newCheckout';">New Checkout</button>
+<br>
 <div id="browse" style="display: block">
     <div class="page-sub-heading">
         <h2>
@@ -9,11 +11,10 @@
     </div>
 
 
-    <table id="checkouts-table" border="1" cellpadding="5">
+    <table id="checkouts-table">
         <thead>
             <tr>
                 <th>
-                    <button onclick="window.location.href='./newCheckout';">New Checkout</button>
                 </th>
                 <th>Checkout ID</th>
                 <th>Member ID</th>
@@ -30,7 +31,7 @@
             {{#each data}}
             <tr data-value="{{this.checkoutID}}">
                 <td>
-                    <button value="{{this.checkoutID}}" onClick="return_book({{this.checkoutID}});">Return Book</button>
+                    <button class="btn" value="{{this.checkoutID}}" onClick="return_book({{this.checkoutID}});">Return Book</button>
                 </td>
                 <td>{{this.checkoutID}}</td>                
                 <td>{{this.memberID}}</td>
@@ -40,7 +41,7 @@
                 <td>{{this.startTime}}</td>
                 <td>{{this.isReturned}}</td>
                 <td>
-                    <button value="{{this.checkoutID}}" onclick="toggleShowEditCheckout({{this.checkoutID}}, {{this.memberID}});">Edit This Checkout</button>
+                    <button class="btn" value="{{this.checkoutID}}" onclick="toggleShowEditCheckout({{this.checkoutID}}, {{this.memberID}});">Edit This Checkout</button>
                 </td>
             </tr>
             {{/each}}
@@ -51,7 +52,7 @@
 </div>
 
 <div>
-    <button onclick="toggleShowHiddenBooks()">Click to see past checkouts</button>
+    <button class="btn" onclick="toggleShowHiddenBooks()">Click to see past checkouts</button>
 </div>
 
 <div id="returnedBooksDiv" style="display: none">
@@ -61,7 +62,7 @@
         </h2>
     </div>
 
-    <table id="returned-checkouts-table" border="1" cellpadding="5">
+    <table id="returned-checkouts-table">
         <thead>
             <tr>
                 <th>
@@ -81,7 +82,7 @@
             {{#each data2}}
             <tr data-value="{{this.checkoutID}}">
                 <td>
-                    <button disabled>Returned</button>
+                    <button class="btn" disabled>Returned</button>
                 </td>
                 <td>{{this.checkoutID}}</td>                
                 <td>{{this.memberID}}</td>
@@ -91,7 +92,7 @@
                 <td>{{this.startTime}}</td>
                 <td>{{this.isReturned}}</td>
                 <td>
-                    <button value="{{this.checkoutID}}" onclick="toggleShowEditCheckout({{this.checkoutID}}, {{this.memberID}});">Edit This Checkout</button>
+                    <button class="btn" value="{{this.checkoutID}}" onclick="toggleShowEditCheckout({{this.checkoutID}}, {{this.memberID}});">Edit This Checkout</button>
                 </td>
             </tr>
             {{/each}}

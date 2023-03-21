@@ -813,6 +813,22 @@ app.put('/put-checkout-ajax/', function(req,res,next){
         }
 });
 
+/*
+    RETRIEVE BOOKS
+*/
+app.get('/bookAuthors', function(req, res) {     
+    const query1 = `SELECT Books.title, Authors.firstName, Authors.lastName FROM Books
+    INNER JOIN BookAuthors ON Books.BookID = BookAuthors.bookID 
+    INNER JOIN Authors ON BookAuthors.authorID = Authors.authorID
+    ORDER BY Authors.lastName`
+    db.pool.query(query1, function(error, rows, fields) {    
+
+        // save the bookAuthors
+        const bookAuthors = rows;
+
+            res.render('bookAuthors', {data2: bookAuthors});
+        })                                                      
+    });
 
 
 /*

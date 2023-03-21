@@ -136,6 +136,10 @@ tbody tr:hover {
     padding: 0.5rem;
 }
 
+.btn:disabled {
+    opacity: 50%;
+}
+
 .btn:hover {
     opacity: 70%;
 }
