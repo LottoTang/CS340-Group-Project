@@ -20,13 +20,13 @@ CREATE TABLE Authors (
 );
 DESCRIBE Authors;
 
--- BooksAuthors
+-- BookAuthors
 DROP TABLES IF EXISTS BookAuthors;
 CREATE TABLE BookAuthors (
     authorID INT NOT NULL,
-    bookID INT NOT NULL,
+    bookID INT,
     FOREIGN KEY (authorID) REFERENCES Authors (authorID),
-    FOREIGN KEY (bookID) REFERENCES Books (bookID)
+    FOREIGN KEY (bookID) REFERENCES Books (bookID) ON DELETE SET NULL
 );
 DESCRIBE BookAuthors;
 

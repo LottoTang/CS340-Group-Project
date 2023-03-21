@@ -98,12 +98,14 @@ addRowToTable = (data) => {
     editButton.onclick = function() {
         showUpdateMember(newRow.memberID);
     };
+    editButton.classList.add("btn");
 
     let deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete"
     deleteButton.onclick = function() {
         deleteMember(newRow.memberID);
     };
+    deleteButton.classList.add("btn");
 
     editAndDeleteCell.appendChild(editButton);
     editAndDeleteCell.appendChild(deleteButton);

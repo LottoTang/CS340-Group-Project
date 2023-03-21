@@ -167,6 +167,7 @@ app.delete('/delete-book-ajax/', function(req, res){
         else {
             res.sendStatus(204);
         }})
+        
 });
 
 /*
