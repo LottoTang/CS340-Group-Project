@@ -13,6 +13,7 @@ function registerAuthor() {
     newFirstNameLabel.setAttribute('class', 'input-author-name');
     const newFirstNameInput = document.createElement('input');
     newFirstNameInput.type = "text";
+    newFirstNameInput.setAttribute('class', 'input-author-firstName');
 
     newPara.appendChild(newFirstNameLabel);
     newPara.appendChild(newFirstNameInput);
@@ -22,6 +23,7 @@ function registerAuthor() {
     newLastNameLabel.setAttribute('class', 'input-author-name');
     const newLastNameInput = document.createElement('input');
     newLastNameInput.type = "text";
+    newLastNameInput.setAttribute('class', 'input-author-lastName');
 
     newPara.appendChild(newLastNameLabel);
     newPara.appendChild(newLastNameInput);
@@ -84,12 +86,12 @@ addBookSubmit.addEventListener("click", function (e) {
     const inputAuthorValueSet = new Set(inputAuthorValue);
 
     // NULL input checking
-    if (inputAuthorValue.includes('') && (inputAuthorFirstName.length == 0 || inputAuthorLastName == 0)) {
+    if ((inputAuthorValue.includes('') && inputAuthorValue.length == 1) && (inputAuthorFirstName.length == 0 || inputAuthorLastName.length == 0)) {
         alert("Must Select An Author OR Register A New Author.");
         return;
     }
 
-    if ((inputAuthorValueSet.length == 1 && inputAuthorValueSet.has('')) && (inputAuthorFirstName.length == 0 || inputAuthorLastName == 0)) {
+    if ((inputAuthorValueSet.length == 1 && inputAuthorValueSet.has('')) && (inputAuthorFirstName.length == 0 || inputAuthorLastName.length == 0)) {
         alert("Author Must Not Be Null.");
         return;
     }
